@@ -25,7 +25,7 @@ class Database : public virtual Matrix<T>
     // @post   The number of rows and number of columns are initialized to
     //         zero
     //**********************************************************************
-    Database() {};
+    Database(): m_col_name(NULL) {};
 
     //**********************************************************************
     // @fn     Database

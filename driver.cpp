@@ -23,6 +23,7 @@ int main()
   unsigned int numRows = 0, numCols = 0; // number of instances and attributes
   std::string fileName;
   string word;
+  string word2;
 
   // Greeting
   std::cout << "This program will return all coverings for a given database " <<
@@ -58,12 +59,8 @@ int main()
   // Set the size of our database
   db1.setSize(9,6);
   
-
-  
    // Open the file
   file.open(fileName.c_str());
-
-  
   // Read in data from input file
   getline(file, word); // @relation table3_10_fg
    
