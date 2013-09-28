@@ -124,8 +124,6 @@ std::istream& operator>>(std::istream &in, Matrix<T2> &a)
   return in;
 }
 
-
-
 /*
 // Operator + for Matrix + Matrix
 template <class T>
