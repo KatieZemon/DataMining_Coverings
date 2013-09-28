@@ -92,9 +92,9 @@ Vector<T>& Matrix<T>::operator[] (const unsigned int rowIndex)
 template <typename T>
 std::ostream& operator<<(std::ostream &os, const Matrix<T> &m)
 {
-  for (int i = 0; i < m.m_numRows; i++)
+  for (unsigned int i = 0; i < m.m_numRows; i++)
   {
-    for(int j = 0; j < m.m_numCols; j++)
+    for(unsigned int j = 0; j < m.m_numCols; j++)
     {
       os << m.m_elm[i][j] << " ";
     }

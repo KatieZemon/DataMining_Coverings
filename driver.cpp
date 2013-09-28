@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <string>
 #include "vector.h"
 #include "matrix.h"
 #include "database.h"
@@ -18,10 +19,12 @@ using namespace std;
 
 int main()
 {
+	cout << "Hello world!" << endl;
+
   // Declare Variables
   Database<string> db1; // stores all of our data
   unsigned int numRows = 0, numCols = 0; // number of instances and attributes
-  std::string fileName;
+  string fileName;
   string word;
 
   // Greeting
@@ -34,13 +37,13 @@ int main()
   // std::cout << std::endl;
   fileName = "table3_10_fg.arff";
   
- 
+
   // Open the file
   std::ifstream file;
   file.open(fileName.c_str());
   
   // get numRows and numCols from the file
-  getline(file, word); // @relation table3_10_fg
+  std::getline(file, word); // @relation table3_10_fg
   
   while (word != "@data")
   {
@@ -67,7 +70,7 @@ int main()
   // Read in data from input file
   getline(file, word); // @relation table3_10_fg
    
-  for (int i = 0; i < db1.getNumCols(); i++)
+  for (unsigned int i = 0; i < db1.getNumCols(); i++)
   {
     file >> word; // @attribute
     
@@ -85,7 +88,7 @@ int main()
   
 
   // Print the values
-  for (int i = 0; i < db1.getNumCols(); i++)
+  for (unsigned int i = 0; i < db1.getNumCols(); i++)
   {
     cout << "Attribute " << i << " name: " << db1.getAttributeName(i) << endl;
   }
@@ -99,6 +102,6 @@ int main()
   cout << "The name of attribute 3: " << db1.getAttributeName(3) << endl;
   cout << "Row 4 data: " << db1[4] << endl;
   cout << "Row 4 column 1 data: " << db1[4][1] << endl;
-
+  
   return 0;
 }
