@@ -9,116 +9,141 @@
 
 
 
+
 // Constructor
-template <class T>
-Database<T>::Database(const unsigned int numRows, const unsigned int numCols)
+template<class T>
+Database<T>::Database (const unsigned int numRows, const unsigned int numCols)
 {
   Matrix<T>::Matrix(numRows, numCols);
-  
-  // Set each column name to be "Untitled" by default
-  m_col_name = new std::string[numCols];
-  for (unsigned int i = 0; i < numCols; i++)
-  {
-    m_col_name[i] = "Untitled";
-  }
 }
 
 // Copy Constructor
-template <class T>
-Database<T>::Database(const Database<T> &m)
+template<class T>
+Database<T>::Database (const Database<T> &m)
 {
+  //Derived* rhs_d = dynamic_cast<Derived*>(&rhs);
   *this = m;
 }
 
-
 // Operator = for Assignment
-template <class T>
-Database<T>& Database<T>::operator=(const Database<T> &rhs)
+template<class T>
+Database<T>& Database<T>::operator= (const Database<T> &rhs)
 {
   this->clear();
   Matrix<T>::m_numRows = rhs.m_numRows;
   Matrix<T>::m_numCols = rhs.m_numCols;
-  Matrix<T>::elm = new Vector<T>[Matrix<T>::m_numRows];
+  Matrix<T>::elm = new Vector<T> [Matrix<T>::m_numRows];
 
   for (unsigned int i = 0; i < rhs.m_numRows; ++i)
   {
     Matrix<T>::elm[i] = rhs.elm[i];
   }
 
-  m_col_name = new std::string[Matrix<T>::m_numCols];
-  
-  for (unsigned int i = 0; i < Matrix<T>::m_numCols; ++i)
-  {
-    m_col_name[i] = rhs.m_col_name[i];
-  }
-
   return *this;
 }
 
-
 // Destructor
-template <class T>
-Database<T>::~Database()
+template<class T>
+Database<T>::~Database ()
 {
   this->clear();
 }
 
-/* Operator >> for inserting values into the Database
-template <typename T2>
-std::istream& operator>>(std::istream &in, Database<T2> &a)
-{ 
- // in >> (Matrix<T2>)a;
-}*/
+// Initialize database values using read file
+template<class T>
+void Database<T>::initDatabase (const std::string fileName)
+{
+  std::string word;
+
+  // Open the file
+  std::ifstream file;
+  /*
+  unsigned int numRows = 0, numCols = 0; // number of instances and attributes
+
+  file.open(fileName.c_str());
+
+  ///////// get numRows and numCols from the file ///////////////
+  getline(file, word); // @relation table3_10_fg
+
+  while (word != "@data")
+  {
+    getline(file, word);
+    numCols++;
+  }
+
+  while (!file.eof())
+  {
+    getline(file, word);
+    numRows++;
+  }
+  file.close();
+*/
+
+  // Set the size of our database
+  this->setSize(9, 6);
+
+
+  file.open(fileName.c_str());
+
+  // Read in data from input file
+  do
+  {
+    file >> word;
+  } while (word != "@attribute");
+
+  // Store our Attributes
+  for (unsigned int i = 0; word != "@data"; i++)
+  {
+    this->addAttribute();
+
+    // Set the attribute name
+    file >> word;
+    this->getAttr(i).setName(word);
+
+    // Set the attribute possible values
+    file >> word;
+    this->getAttr(i).setPossibleVals(word);
+
+    file >> word; // @attribute
+  }
+
+  // Initialize data values
+  file >> *this;
+  file.close();
+}
 
 // Clear a Database
-template <class T>
-void Database<T>::clear()
+template<class T>
+void Database<T>::clear ()
 {
   if (0 != Matrix<T>::m_numRows)
   {
     Matrix<T>::clear();
-    delete[] m_col_name;
   }
+  attributes.clear();
 }
 
-
-// Clear and set size
+// Set Size (and clear)
 template<class T>
-void Database<T>::setSize(const unsigned int numRows, const unsigned int numCols)
-{ 
+void Database<T>::setSize (const unsigned int numRows, const unsigned int numCols)
+{
   Matrix<T>::setSize(numRows, numCols);
-  
-  // Set each column name to be "Untitled" by default
-  m_col_name = new std::string[numCols];
-  for (unsigned int i = 0; i < numCols; i++)
-  {
-    m_col_name[i] = "Untitled";
-  }
 }
 
 
-// Set the name of a column
-template <class T>
-void Database<T>:: setAttributeName(unsigned int i, std::string name)
+// Get Attribute
+template<class T>
+Attribute& Database<T>::getAttr (unsigned int i)
 {
-  if (i >= Matrix<T>::m_numCols || Matrix<T>::m_numCols == 0)
-  {
-    throw SubscriptRangeError(i);
-  }
-  m_col_name[i] = name;
+  return attributes[i];
 }
 
-// Get the name of the column
-template <class T>
-std::string Database<T>:: getAttributeName(unsigned int i) const
+template<class T>
+void Database<T>::addAttribute()
 {
-  if (i >= Matrix<T>::m_numCols || Matrix<T>::m_numCols == 0)
-  {
-    throw SubscriptRangeError(i);
-  }
-  return m_col_name[i];
+  Attribute a;
+  addAttribute(a);
 }
-
 
 
 
