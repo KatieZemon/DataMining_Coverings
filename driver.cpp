@@ -12,18 +12,23 @@
 #include <fstream>
 #include <cmath>
 #include <string>
+#include <sstream>
 #include "vector.h"
 #include "matrix.h"
 #include "database.h"
 #include "attribute.h"
 using namespace std;
 
+// Function prototypes
+Vector<string> setDecisionAttributes(Database<string>& db);
+
 int main()
 {
   Database<std::string> db; // Our Database
   std::string fileName;
+  Vector<string> v; // selected decision attributes
 
- /* // Greeting
+  // Greeting
   std::cout << "This program will return all coverings for a given database " << std::endl << std::endl;
 
   // Get the file name
@@ -35,7 +40,13 @@ int main()
   // Initialize our database
   db.initDatabase(fileName); // Initialize database values using file
 
+  // Set the decision attributes
+  v = setDecisionAttributes(db); // Display menu and select decision attributes
 
+
+
+
+/*
   // Print Database values
   cout << "Our data values are as follows: " << std::endl;
   cout << db;
@@ -63,8 +74,36 @@ int main()
       cout << "nondecision";
     cout << endl;
   }
-
+*/
   return 0;
+}
+
+// setDecisionAttributes
+Vector<string> setDecisionAttributes(Database<string> &db)
+{
+  string input, singleVal;
+  Vector<string> v; // selected decision attributes
+  bool validInput = true;
+
+  // Print our menu
+  cout << "~~Menu~~ " << endl;
+  for (unsigned int i = 0; i < db.getNumAttributes(); i++)
+  {
+    cout << i+1 << ". " << db.getAttr(i).getName() << endl;
+  }
+  cout << endl;
+
+  // Select the decision attributes
+  cout << "Select your decision attributes." << endl;
+  cout<< "Enter numbers from the menu above separated by spaces" << endl;
+
+  getline(cin,input);
+  std::istringstream iss(input);
+
+  while(iss >> singleVal)
+      v.push_back( singleVal );
+
+  return v;
 }
 
 

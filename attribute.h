@@ -140,6 +140,7 @@ class Attribute
     // *********************************************************************
     void setNumeric(const bool isNumeric);
 
+
   private:
    std::string m_name;
    std::string m_possibleVals;

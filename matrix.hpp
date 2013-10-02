@@ -86,11 +86,7 @@ std::ostream& operator<< (std::ostream &os, const Matrix<T> &m)
 {
   for (unsigned int i = 0; i < m.m_numRows; i++)
   {
-<<<<<<< HEAD
-    for (unsigned int j = 0; j < m.m_numCols; j++)
-=======
     for(unsigned int j = 0; j < m.m_numCols; j++)
->>>>>>> 28ab53598c56c98e96aec158a48116b57bd6cf75
     {
       os << m.m_elm[i][j] << " ";
     }

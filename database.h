@@ -136,7 +136,7 @@ class Database : public virtual Matrix<T>
     // @pre    None
     // @post   The new attribute is added
     // *********************************************************************
-    void addAttribute(const Attribute a){ attributes.push_back(a); }
+    void addAttribute(const Attribute a){ m_attributes.push_back(a); }
 
     // *********************************************************************
     // @fn     addAttribute
@@ -146,8 +146,18 @@ class Database : public virtual Matrix<T>
     // *********************************************************************
     void addAttribute();
 
+    // *********************************************************************
+    // @fn     setDecisionAttrs
+    // @brief  Receive a list of decision attributes and set these attributes
+    //         as being decision attributes
+    // @pre    None
+    // @post   m_typeIsDecision is set for each of our decision attributes
+    // *********************************************************************
+    void setDecisionAttrs(Vector<unsigned int> decisionAttrs);
+
+
   protected:
-    Vector<Attribute> attributes;
+    Vector<Attribute> m_attributes;
 };
 
 #include "database.hpp"

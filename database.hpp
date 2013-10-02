@@ -120,7 +120,7 @@ void Database<T>::clear ()
   {
     Matrix<T>::clear();
   }
-  attributes.clear();
+  m_attributes.clear();
 }
 
 // Set Size (and clear)
@@ -135,7 +135,7 @@ void Database<T>::setSize (const unsigned int numRows, const unsigned int numCol
 template<class T>
 Attribute& Database<T>::getAttr (unsigned int i)
 {
-  return attributes[i];
+  return m_attributes[i];
 }
 
 template<class T>
@@ -143,6 +143,15 @@ void Database<T>::addAttribute()
 {
   Attribute a;
   addAttribute(a);
+}
+
+template<class T>
+void Database<T>::setDecisionAttrs(Vector<unsigned int> decisionAttrs)
+{
+  for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
+  {
+    m_attributes[i].setDecision(true);
+  }
 }
 
 
