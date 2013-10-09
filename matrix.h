@@ -104,6 +104,7 @@ class Matrix
     // *********************************************************************
     template <typename T2>
     friend std::istream& operator>>(std::istream &in, Matrix<T2> &a);
+
    
     /**********************************************************************
     // @fn     operator +
@@ -313,8 +314,6 @@ class Matrix
     //         the coefficient values are reset to zero
     // *********************************************************************
     void setSize(const unsigned int numRows, const unsigned int numCols);
-
-    void addRow();
      
     // *********************************************************************
     // @fn     isDiagonallyDominant

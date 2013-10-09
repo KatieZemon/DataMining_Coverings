@@ -132,7 +132,7 @@ class Database : public virtual Matrix<T>
 
     // *********************************************************************
     // @fn     addAttribute
-    // @brief  Adds a new attribute to the database
+    // @brief  Adds a new attribute to our list of attributes
     // @pre    None
     // @post   The new attribute is added
     // *********************************************************************
@@ -154,7 +154,6 @@ class Database : public virtual Matrix<T>
     // @post   m_typeIsDecision is set for each of our decision attributes
     // *********************************************************************
     void setDecisionAttrs(Vector<unsigned int> decisionAttrs);
-
 
   protected:
     Vector<Attribute> m_attributes;

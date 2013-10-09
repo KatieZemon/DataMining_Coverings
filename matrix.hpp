@@ -101,19 +101,43 @@ std::istream& operator>> (std::istream &in, Matrix<T2> &a)
 {
   unsigned int numRows = a.getNumRows();
   unsigned int numCols = a.getNumCols();
+  std::string line;
+  std::stringstream iss;
 
   // Initialize the Matrix elements
   for (unsigned int i = 0; i < numRows; ++i)
   {
+    // Get the entire row
+    getline(in,line);
+    iss << line;
     for (unsigned int j = 0; j < numCols; j++)
     {
-      in >> a[i][j];
-      // in.ignore(1); // Ignore the comma between values
+      getline(iss, a[i][j], ',');
     }
+    iss.clear();
   }
-
   return in;
 }
+
+
+/*
+  unsigned int i = 0;
+
+  while (getline(in,line))
+  {
+    iss << line;
+
+    for (unsigned int j = 0; j < numCols; j++)
+    {
+      getline(iss, a[i][j], ',');
+    }
+    iss.clear();
+    i++;
+  }
+  return in;
+  */
+
+
 
 /*
  // Operator + for Matrix + Matrix
@@ -363,15 +387,6 @@ void Matrix<T>::clear ()
     m_numRows = 0;
     m_numCols = 0;
   }
-}
-
-template<class T>
-void Matrix<T>::addRow ()
-{
-
-  // Vector<T> v(m_numCols);
-  // m_elm[0].push_back(0);
- // m_elm[0].push_back(m_numRows);
 }
 
 template<class T>

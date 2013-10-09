@@ -7,9 +7,6 @@
 //  Purpose:     Define operators and functions for the Database class
 //**************************************************************************
 
-
-
-
 // Constructor
 template<class T>
 Database<T>::Database (const unsigned int numRows, const unsigned int numCols)
@@ -49,66 +46,63 @@ Database<T>::~Database ()
   this->clear();
 }
 
-// Initialize database values using read file
+// Initialize database values using the read file
 template<class T>
 void Database<T>::initDatabase (const std::string fileName)
 {
   std::string word;
+  unsigned int numCols = 0, numRows = 0; // number of attributes and instances
+  Vector<std::string> listRows; // store each row in a Vector
+  std::stringstream iss;
 
   // Open the file
   std::ifstream file;
-  /*
-  unsigned int numRows = 0, numCols = 0; // number of instances and attributes
-
   file.open(fileName.c_str());
 
-  ///////// get numRows and numCols from the file ///////////////
-  getline(file, word); // @relation table3_10_fg
-
-  while (word != "@data")
-  {
-    getline(file, word);
-    numCols++;
-  }
-
-  while (!file.eof())
-  {
-    getline(file, word);
-    numRows++;
-  }
-  file.close();
-*/
-
-  // Set the size of our database
-  this->setSize(9, 6);
-
-
-  file.open(fileName.c_str());
-
-  // Read in data from input file
+  // Read until we come across the word "@attribute" in our file
   do
   {
     file >> word;
   } while (word != "@attribute");
 
-  // Store our Attributes
+  // Store our attribute data
   for (unsigned int i = 0; word != "@data"; i++)
   {
-    this->addAttribute();
+    this->addAttribute(); // Add a new attribute
+    numRows++;
 
-    // Set the attribute name
     file >> word;
-    this->getAttr(i).setName(word);
+    this->getAttr(i).setName(word); // Set the attribute name
 
-    // Set the attribute possible values
     file >> word;
-    this->getAttr(i).setPossibleVals(word);
+    this->getAttr(i).setPossibleVals(word); // Set the attribute possible values
 
-    file >> word; // @attribute
+    file >> word; // Ignore the word "@attribute"
+    numCols++;
+  }
+  getline(file, word);
+
+  // Push database rows onto a vector
+  while (getline(file, word))
+  {
+    listRows.push_back(word);
+  }
+  numRows = listRows.getSize();
+
+  // Set the size of our matrix
+  this->setSize(numRows, numCols);
+
+  // Initialize matrix values
+  for (unsigned int i = 0; i < listRows.getSize(); i++)
+  {
+    iss << listRows[i];
+    for (unsigned int j = 0; j < numCols; j++)
+    {
+      getline(iss, (*this)[i][j], ',');
+    }
+    iss.clear();
   }
 
-  // Initialize data values
-  file >> *this;
   file.close();
 }
 
@@ -130,7 +124,6 @@ void Database<T>::setSize (const unsigned int numRows, const unsigned int numCol
   Matrix<T>::setSize(numRows, numCols);
 }
 
-
 // Get Attribute
 template<class T>
 Attribute& Database<T>::getAttr (unsigned int i)
@@ -139,21 +132,18 @@ Attribute& Database<T>::getAttr (unsigned int i)
 }
 
 template<class T>
-void Database<T>::addAttribute()
+void Database<T>::addAttribute ()
 {
   Attribute a;
   addAttribute(a);
 }
 
 template<class T>
-void Database<T>::setDecisionAttrs(Vector<unsigned int> decisionAttrs)
+void Database<T>::setDecisionAttrs (Vector<unsigned int> decisionAttrs)
 {
   for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
   {
-    m_attributes[i].setDecision(true);
+    m_attributes[ decisionAttrs[i] - 1 ].setDecision(true);
   }
 }
-
-
-
 

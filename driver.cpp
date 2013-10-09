@@ -20,13 +20,12 @@
 using namespace std;
 
 // Function prototypes
-Vector<string> setDecisionAttributes(Database<string>& db);
+void setDecisionAttributes(Database<string>& db);
 
 int main()
 {
-  Database<std::string> db; // Our Database
+  Database<std::string> db;
   std::string fileName;
-  Vector<string> v; // selected decision attributes
 
   // Greeting
   std::cout << "This program will return all coverings for a given database " << std::endl << std::endl;
@@ -38,19 +37,15 @@ int main()
   fileName = "table3_10_fg.arff";
   
   // Initialize our database
-  db.initDatabase(fileName); // Initialize database values using file
+  db.initDatabase(fileName);
 
-  // Set the decision attributes
-  v = setDecisionAttributes(db); // Display menu and select decision attributes
-
-
+  // Set our decision attributes
+  setDecisionAttributes(db);
 
 
-/*
   // Print Database values
   cout << "Our data values are as follows: " << std::endl;
   cout << db;
-
   cout << "Number of instances: " << db.getNumInstances() << endl;
   cout << "Number of attributes: " << db.getNumAttributes() << endl;
   cout << "Row 4 data: " << db[4] << endl;
@@ -58,6 +53,7 @@ int main()
 
 
   // Print Attribute properties
+  cout << "Attribute Properties: " << endl;
   for (unsigned int i = 0; i < db.getNumAttributes(); i++)
   {
     cout << db.getAttr(i).getName() << " "
@@ -74,16 +70,15 @@ int main()
       cout << "nondecision";
     cout << endl;
   }
-*/
   return 0;
 }
 
 // setDecisionAttributes
-Vector<string> setDecisionAttributes(Database<string> &db)
+void setDecisionAttributes(Database<string> &db)
 {
-  string input, singleVal;
-  Vector<string> v; // selected decision attributes
-  bool validInput = true;
+  string input;
+  unsigned int singleVal;
+  Vector<unsigned int> decisionAttrs; // selected decision attributes
 
   // Print our menu
   cout << "~~Menu~~ " << endl;
@@ -95,15 +90,15 @@ Vector<string> setDecisionAttributes(Database<string> &db)
 
   // Select the decision attributes
   cout << "Select your decision attributes." << endl;
-  cout<< "Enter numbers from the menu above separated by spaces" << endl;
+  cout << "Enter numbers from the menu above separated by spaces" << endl;
 
   getline(cin,input);
   std::istringstream iss(input);
 
   while(iss >> singleVal)
-      v.push_back( singleVal );
+    decisionAttrs.push_back( singleVal );
 
-  return v;
+  db.setDecisionAttrs(decisionAttrs);
 }
 
 
