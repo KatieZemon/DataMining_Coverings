@@ -149,6 +149,7 @@ vector<int> setDecisionAttributes(Database<string> &db)
   return decisionAttrs;
 }
 
+
 // Computes the partition for our attributes
 // @param a - the column numbers of our attributes
 map<std::string, vector<int> > computePartition(Database<string> &db, vector<int> a)
@@ -169,7 +170,29 @@ map<std::string, vector<int> > computePartition(Database<string> &db, vector<int
   }
   return p;
 }
+/*
+ * // Computes the partition for our attributes
+// @param a - the column numbers of our attributes
+map<std::string, vector<int> > computePartition(Database<string> &db, vector<int> a)
+{
+  map<std::string, vector<int> > p;
 
+  // Push elements onto the map
+  std::string key;
+  for(unsigned int i = 0; i < db.getNumRows(); i++)
+  {
+    key = "";
+    for (unsigned int j = 0; j < a.size(); j++)
+    {
+      key += db[i][ a[j] ]; // Cols
+      if (j+1 < a.size() ) { key += ", "; }
+    }
+    p[key].push_back(i);
+  }
+  return p;
+}
+ *
+ */
 
 
 

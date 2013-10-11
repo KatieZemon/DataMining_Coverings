@@ -1,6 +1,6 @@
 //**************************************************************************
-//  Name:        Camaro Walker and Katie Isbell
-//  File:        vector.hpp
+//  Name:        Katie Isbell and Camaro Walker
+//  File:        attribute.hpp
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013
 //  Course:      CS301

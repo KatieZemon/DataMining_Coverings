@@ -112,7 +112,7 @@ class Attribute
     // @pre    The values in the string are delimited by commas
     // @post   The Attribute possible values have been set
     // *********************************************************************
-    void setPossibleVals(const string possibleVals);
+    void setPossibleVals(const std::string possibleVals);
 
     // *********************************************************************
     // @fn     setPossibleVals
