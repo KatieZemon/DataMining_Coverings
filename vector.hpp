@@ -89,7 +89,8 @@ void Vector<T>::push_back (const T x)
   }
 
   // Set value of m data and then increase m_size
-  m_data[m_size++] = x;
+  m_data[m_size] = x;
+  m_size++;
 }
 
 // pop_back function

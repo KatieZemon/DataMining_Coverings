@@ -29,11 +29,11 @@ Database<T>& Database<T>::operator= (const Database<T> &rhs)
   this->clear();
   Matrix<T>::m_numRows = rhs.m_numRows;
   Matrix<T>::m_numCols = rhs.m_numCols;
-  Matrix<T>::elm = new Vector<T> [Matrix<T>::m_numRows];
+  Matrix<T>::m_elm = rhs.m_elm; //new Vector<T> [Matrix<T>::m_numRows];
 
   for (unsigned int i = 0; i < rhs.m_numRows; ++i)
   {
-    Matrix<T>::elm[i] = rhs.elm[i];
+    Matrix<T>::m_elm[i] = rhs.m_elm[i];
   }
 
   return *this;

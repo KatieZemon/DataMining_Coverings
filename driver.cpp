@@ -17,10 +17,14 @@
 #include "matrix.h"
 #include "database.h"
 #include "attribute.h"
+#include <map>
+#include <set>
+#include <vector>
 using namespace std;
 
 // Function prototypes
-void setDecisionAttributes(Database<string>& db);
+vector<int> setDecisionAttributes(Database<string>& db);
+map<std::string, vector<int> > computePartition(Database<std::string>& db, vector<int> a);
 
 int main()
 {
@@ -35,14 +39,13 @@ int main()
   // std::cin >> fileName;
   // std::cout << std::endl;*/
   fileName = "table3_10_fg.arff";
-  
+
   // Initialize our database
   db.initDatabase(fileName);
 
   // Set our decision attributes
-  setDecisionAttributes(db);
-
-
+  vector<int> decisionAttributes = setDecisionAttributes(db);
+/*
   // Print Database values
   cout << "Our data values are as follows: " << std::endl;
   cout << db;
@@ -63,22 +66,65 @@ int main()
       cout << "numeric ";
     else
       cout << "nominal ";
-
+vector<int>
     if (db.getAttr(i).isDecision())
       cout << "decision ";
     else
       cout << "nondecision";
     cout << endl;
+  }*/
+
+
+  // *** Rule of Induction Alcorithm ***
+
+  // Compute the partition of our decision attributes
+  map<std::string, vector<int> > p;
+  p = computePartition(db, decisionAttributes);
+
+  vector<int> n;
+  n.push_back(1);
+
+  // Compute the partition of our nonDecision attributes
+  map<std::string, vector<int> > p1;
+  p1 = computePartition(db, n);
+
+
+  std::string key;
+  vector<int> groupVals;
+
+  // Print out our elements
+  for (map<std::string, vector<int> >::const_iterator it = p.begin(); it != p.end(); ++it) {
+     key = it->first;
+     groupVals = it->second;
+
+     cout << "{";
+     for (unsigned int i = 0; i < groupVals.size(); i++)
+       std::cout << " " << groupVals[i] << ",";
+     cout<< " (" << key << ") }" << endl;
   }
+
+  // Print out our elements
+  for (map<std::string, vector<int> >::const_iterator it = p1.begin(); it != p1.end(); ++it) {
+     key = it->first;
+     groupVals = it->second;
+
+     cout << "{";
+     for (unsigned int i = 0; i < groupVals.size(); i++)
+       std::cout << " " << groupVals[i] << ",";
+     cout<< " (" << key << ") }" << endl;
+  }
+
+  // Is P1 a covering of P
+
   return 0;
 }
 
 // setDecisionAttributes
-void setDecisionAttributes(Database<string> &db)
+vector<int> setDecisionAttributes(Database<string> &db)
 {
   string input;
   unsigned int singleVal;
-  Vector<unsigned int> decisionAttrs; // selected decision attributes
+  vector<int> decisionAttrs; // selected decision attributes
 
   // Print our menu
   cout << "~~Menu~~ " << endl;
@@ -96,9 +142,94 @@ void setDecisionAttributes(Database<string> &db)
   std::istringstream iss(input);
 
   while(iss >> singleVal)
-    decisionAttrs.push_back( singleVal );
+    decisionAttrs.push_back( singleVal - 1 );
 
-  db.setDecisionAttrs(decisionAttrs);
+  //db.setDecisionAttrs(decisionAttrs);
+
+  return decisionAttrs;
 }
+
+// Computes the partition for our attributes
+// @param a - the column numbers of our attributes
+map<std::string, vector<int> > computePartition(Database<string> &db, vector<int> a)
+{
+  map<std::string, vector<int> > p;
+
+  // Push elements onto the map
+  std::string key;
+  for(unsigned int i = 0; i < db.getNumRows(); i++)
+  {
+    key = "";
+    for (unsigned int j = 0; j < a.size(); j++)
+    {
+      key += db[i][ a[j] ]; // Cols
+      if (j+1 < a.size() ) { key += ", "; }
+    }
+    p[key].push_back(i);
+  }
+  return p;
+}
+
+
+
+
+
+
+ // cout << m[key] << endl;
+  /*
+  Vector<int> attributeList;
+  attributeList.push_back(0);
+  attributeList.push_back(2);
+
+  Vector<Vector<int> > v;
+
+  string pattern;
+  for (unsigned int i = 0; i < db.getNumRows(); i++)
+  {
+    pattern = "";
+    // Store our pattern
+    for(unsigned int j = 0; j < attributeList.getSize(); j++)
+    {
+      pattern += db[i][ attributeList[j] ];
+    }
+
+    bool inserted = false;
+
+    // Check whether an instance with this pattern already exists within our partition
+    for (unsigned int j = 0; j < v.getSize(); j++)
+    {
+      // If it does, add the instance to this group
+      if (v[j].getPattern() == pattern)
+      {
+        v[k].push_back(i);
+        inserted = true;
+      }
+    }
+
+    // If it does not, add a new subgroup
+    if (!inserted)
+    {
+      v.addGroup(pattern);
+      v[v.getSize()].push_back(i);
+    }
+
+    std::cout<< pattern << endl;
+  }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
