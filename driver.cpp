@@ -25,6 +25,7 @@ using namespace std;
 // Function prototypes
 vector<int> setDecisionAttributes(Database<string>& db);
 map<std::string, vector<int> > computePartition(Database<std::string>& db, vector<int> a);
+bool isSubset(const std::vector<int>& a, const std::vector<int>& b);
 
 int main()
 {
@@ -75,7 +76,7 @@ vector<int>
   }*/
 
 
-  // *** Rule of Induction Alcorithm ***
+  // *** Rule of Induction Algorithm ***
 
   // Compute the partition of our decision attributes
   map<std::string, vector<int> > p;
@@ -102,9 +103,10 @@ vector<int>
        std::cout << " " << groupVals[i] << ",";
      cout<< " (" << key << ") }" << endl;
   }
-
+cout << endl;
   // Print out our elements
-  for (map<std::string, vector<int> >::const_iterator it = p1.begin(); it != p1.end(); ++it) {
+  for (map<std::string, vector<int> >::const_iterator it = p1.begin(); it != p1.end(); ++it)
+  {
      key = it->first;
      groupVals = it->second;
 
@@ -114,9 +116,57 @@ vector<int>
      cout<< " (" << key << ") }" << endl;
   }
 
-  // Is P1 a covering of P
+  std::string key1;
+  vector<int> groupVals1;
+
+  // Is P1 <= P???
+  bool subset = true;
+  for (map<std::string, vector<int> >::const_iterator it1 = p1.begin(); it1 != p1.end() && subset == true; ++it1)
+  {
+    subset = false;
+    key1 = it1->first;
+    groupVals1 = it1->second;
+
+    // Iterate through each group in P
+    for (map<std::string, vector<int> >::const_iterator it = p.begin(); it != p.end(); ++it)
+    {
+      key = it->first;
+      groupVals = it->second;
+
+      std::string pattern;
+
+      // Is the selected group in P1 a subset of a group in P?
+      if ( isSubset(groupVals1, groupVals) )
+      {
+        subset = true;
+        it == p.end();
+      }
+    }
+  }
+
+  std::cout << "Subset? " << subset<< std::endl;
 
   return 0;
+}
+
+// Is vector b a subset of vector a
+bool isSubset(const std::vector<int>& a, const std::vector<int>& b)
+{
+  bool found;
+  for (std::vector<int>::const_iterator i = a.begin(); i != a.end(); i++)
+  {
+    found = false;
+    for (std::vector<int>::const_iterator j = b.begin(); j != b.end() && (found == false); j++)
+    {
+      if (*i == *j)
+      {
+        found = true;
+      }
+    }
+    if (!found)
+      return false;
+  }
+  return true;
 }
 
 // setDecisionAttributes
@@ -170,75 +220,6 @@ map<std::string, vector<int> > computePartition(Database<string> &db, vector<int
   }
   return p;
 }
-/*
- * // Computes the partition for our attributes
-// @param a - the column numbers of our attributes
-map<std::string, vector<int> > computePartition(Database<string> &db, vector<int> a)
-{
-  map<std::string, vector<int> > p;
-
-  // Push elements onto the map
-  std::string key;
-  for(unsigned int i = 0; i < db.getNumRows(); i++)
-  {
-    key = "";
-    for (unsigned int j = 0; j < a.size(); j++)
-    {
-      key += db[i][ a[j] ]; // Cols
-      if (j+1 < a.size() ) { key += ", "; }
-    }
-    p[key].push_back(i);
-  }
-  return p;
-}
- *
- */
-
-
-
-
-
- // cout << m[key] << endl;
-  /*
-  Vector<int> attributeList;
-  attributeList.push_back(0);
-  attributeList.push_back(2);
-
-  Vector<Vector<int> > v;
-
-  string pattern;
-  for (unsigned int i = 0; i < db.getNumRows(); i++)
-  {
-    pattern = "";
-    // Store our pattern
-    for(unsigned int j = 0; j < attributeList.getSize(); j++)
-    {
-      pattern += db[i][ attributeList[j] ];
-    }
-
-    bool inserted = false;
-
-    // Check whether an instance with this pattern already exists within our partition
-    for (unsigned int j = 0; j < v.getSize(); j++)
-    {
-      // If it does, add the instance to this group
-      if (v[j].getPattern() == pattern)
-      {
-        v[k].push_back(i);
-        inserted = true;
-      }
-    }
-
-    // If it does not, add a new subgroup
-    if (!inserted)
-    {
-      v.addGroup(pattern);
-      v[v.getSize()].push_back(i);
-    }
-
-    std::cout<< pattern << endl;
-  }*/
-
 
 
 

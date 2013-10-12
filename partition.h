@@ -22,7 +22,7 @@ class Partition
     // @pre    None
     // @post   The number of sets within the partition is initialized to zero
     // *********************************************************************
-    Partition();
+    Partition(): m_pattern(0) {}
 
     // *********************************************************************
     // @fn     Partition
@@ -39,7 +39,7 @@ class Partition
     // @post   The size of the Vector is set to zero and the data has been
     //         cleared
     // *********************************************************************
-    ~Partition();
+   // ~Partition();
 
     // *********************************************************************
     // @fn     operator <=
