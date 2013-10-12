@@ -410,6 +410,5 @@ void Vector<T>::setSize (unsigned int numCoefficients)
     m_max_size *= 2;
 
    m_data = new T[m_max_size];
-
 }
 

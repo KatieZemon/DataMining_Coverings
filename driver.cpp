@@ -20,6 +20,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include "partition.h"
 using namespace std;
 
 // Function prototypes
@@ -78,47 +79,35 @@ vector<int>
 
   // *** Rule of Induction Algorithm ***
 
+
+
+
   // Compute the partition of our decision attributes
-  map<std::string, vector<int> > p;
-  p = computePartition(db, decisionAttributes);
+ // map<std::string, vector<int> > p;
+//  p = computePartition(db, decisionAttributes);
 
   vector<int> n;
   n.push_back(1);
 
   // Compute the partition of our nonDecision attributes
-  map<std::string, vector<int> > p1;
-  p1 = computePartition(db, n);
+ // map<std::string, vector<int> > p1;
+//  p1 = computePartition(db, n);
 
 
-  std::string key;
-  vector<int> groupVals;
+  Partition p3(db, decisionAttributes);
+  Partition p4(db,n);
+  cout << p3 << endl;
+  cout << p4;
+  cout << endl << endl;
 
-  // Print out our elements
-  for (map<std::string, vector<int> >::const_iterator it = p.begin(); it != p.end(); ++it) {
-     key = it->first;
-     groupVals = it->second;
+  p3.print();
+  cout << endl;
+  p4.print();
 
-     cout << "{";
-     for (unsigned int i = 0; i < groupVals.size(); i++)
-       std::cout << " " << groupVals[i] << ",";
-     cout<< " (" << key << ") }" << endl;
-  }
-cout << endl;
-  // Print out our elements
-  for (map<std::string, vector<int> >::const_iterator it = p1.begin(); it != p1.end(); ++it)
-  {
-     key = it->first;
-     groupVals = it->second;
 
-     cout << "{";
-     for (unsigned int i = 0; i < groupVals.size(); i++)
-       std::cout << " " << groupVals[i] << ",";
-     cout<< " (" << key << ") }" << endl;
-  }
+  cout << "P4 <= P3? " << (p4 <= p3) << endl;
 
-  std::string key1;
-  vector<int> groupVals1;
-
+/*
   // Is P1 <= P???
   bool subset = true;
   for (map<std::string, vector<int> >::const_iterator it1 = p1.begin(); it1 != p1.end() && subset == true; ++it1)
@@ -142,13 +131,13 @@ cout << endl;
         it == p.end();
       }
     }
-  }
+  }*/
 
-  std::cout << "Subset? " << subset<< std::endl;
+ // std::cout << "Subset? " << subset<< std::endl;
 
   return 0;
 }
-
+/*
 // Is vector b a subset of vector a
 bool isSubset(const std::vector<int>& a, const std::vector<int>& b)
 {
@@ -167,7 +156,7 @@ bool isSubset(const std::vector<int>& a, const std::vector<int>& b)
       return false;
   }
   return true;
-}
+}*/
 
 // setDecisionAttributes
 vector<int> setDecisionAttributes(Database<string> &db)

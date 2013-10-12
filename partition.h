@@ -9,6 +9,12 @@
 #ifndef PARTITION_H
 #define PARTITION_H
 #include "vector.h"
+#include <vector>
+#include <map>
+#include "database.h"
+using namespace std;
+
+bool isSubset(const std::vector<int>& a, const std::vector<int>& b);
 // *************************************************************************
 // @class Partition
 // @brief Functions used for creating a Partition
@@ -22,7 +28,21 @@ class Partition
     // @pre    None
     // @post   The number of sets within the partition is initialized to zero
     // *********************************************************************
-    Partition(): m_pattern(0) {}
+    Partition();
+
+    // *********************************************************************
+    // @fn     Partition
+    // @brief  Initialize our partition given a database and vector of attributes
+    // @pre    a must be a set of data with no repeating values, and whose
+    //         minimum value is zero and maximum value is the size of the
+    //         dataset.
+    // @param  db is the database
+    // @param  a is a list of column indices within our database. Our database will
+    //         be partitioned based on these selected attributes
+    // @post   A partition will be created based on the selected database
+    //         and attributes within that database
+    // *********************************************************************
+    Partition (const Database<std::string>& db, const std::vector<int>& a);
 
     // *********************************************************************
     // @fn     Partition
@@ -30,7 +50,7 @@ class Partition
     // @pre    None
     // @post   The new Partition is an exact copy of the original Partition
     // *********************************************************************
-    Partition(const Partition &a);
+    Partition (const Partition &a);
 
     // *********************************************************************
     // @fn     ~Partition
@@ -39,7 +59,44 @@ class Partition
     // @post   The size of the Vector is set to zero and the data has been
     //         cleared
     // *********************************************************************
-   // ~Partition();
+    // ~Partition();
+
+    void print()
+    {
+      std::string key;
+      vector<int> groupVals;
+
+      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it) {
+         key = it->first;
+         groupVals = it->second;
+
+         std::cout << "{";
+         for (unsigned int i = 0; i < groupVals.size(); i++)
+           std::cout << " " << groupVals[i] << ",";
+         std::cout << " (" << key << ") }" << std::endl;
+      }
+    }
+
+    friend std::ostream& operator<<(std::ostream &os, const Partition &p)
+    {
+      std::string key;
+      vector<int> groupVals;
+
+      for (map<std::string, vector<int> >::const_iterator it = p.getMap().begin(); it != p.getMap().end(); ++it) {
+         key = it->first;
+         groupVals = it->second;
+
+         os << "{";
+         for (unsigned int i = 0; i < groupVals.size(); i++)
+         {
+           os << " " << groupVals[i] << ",";
+           cout << "hi: " << groupVals[i] << endl;
+         }
+         os<< " (" << key << ") }" << std::endl;
+      }
+      return os;
+    }
+
 
     // *********************************************************************
     // @fn     operator <=
@@ -47,18 +104,7 @@ class Partition
     // @pre    none
     // @post   Returns true if P2 is a subset of P1
     // *********************************************************************
-    bool operator<= (const Partition &p1) const
-    {
-      return true;
-    }
-
-    // *********************************************************************
-    // @fn     operator []
-    // @brief  Returns the vector of values within a particular group
-    // @pre    None
-    // @post   The name of the Partition has been returned
-    // *********************************************************************
-    const std::vector<int> operator[](const unsigned int rowIndex) { return m_group[rowIndex]; }
+    bool operator<= (const Partition &p1) const;
 
     // *********************************************************************
     // @fn     getNumGroups
@@ -66,20 +112,31 @@ class Partition
     // @pre    none
     // @post   Returns the size of our m_partitionGroup vector
     // *********************************************************************
-    const unsigned int getNumGroups() { return m_group.size(); }
+    map<std::string, vector<int> > getMap() const;
 
-    void addGroup(){ std::vector<int> v; m_group.push_back(v); }
-
-    // insert a row value into a specified group number
-    void insert(int rowNum, int groupNum) { m_group[groupNum].push_back(rowNum); }
-
-    void setPattern(const std::string pattern) { m_pattern = pattern; }
-    const std::string getPattern() { return m_pattern; }
 
   private:
-   std::string m_pattern;
-   std::vector<std::vector<int> > m_group;
+    map<std::string, vector<int> > m_map;
 };
 
 #include "partition.hpp"
 #endif
+
+bool isSubset(const std::vector<int>& a, const std::vector<int>& b)
+{
+  bool found;
+  for (std::vector<int>::const_iterator i = a.begin(); i != a.end(); i++)
+  {
+    found = false;
+    for (std::vector<int>::const_iterator j = b.begin(); j != b.end() && (found == false); j++)
+    {
+      if (*i == *j)
+      {
+        found = true;
+      }
+    }
+    if (!found)
+      return false;
+  }
+  return true;
+}
