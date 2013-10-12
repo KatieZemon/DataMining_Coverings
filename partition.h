@@ -76,7 +76,7 @@ class Partition
          std::cout << " (" << key << ") }" << std::endl;
       }
     }
-
+/*
     friend std::ostream& operator<<(std::ostream &os, const Partition &p)
     {
       std::string key;
@@ -96,7 +96,7 @@ class Partition
       }
       return os;
     }
-
+*/
 
     // *********************************************************************
     // @fn     operator <=

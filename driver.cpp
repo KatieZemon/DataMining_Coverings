@@ -79,84 +79,21 @@ vector<int>
 
   // *** Rule of Induction Algorithm ***
 
-
-
-
   // Compute the partition of our decision attributes
- // map<std::string, vector<int> > p;
-//  p = computePartition(db, decisionAttributes);
-
   vector<int> n;
   n.push_back(1);
 
-  // Compute the partition of our nonDecision attributes
- // map<std::string, vector<int> > p1;
-//  p1 = computePartition(db, n);
-
-
   Partition p3(db, decisionAttributes);
   Partition p4(db,n);
-  cout << p3 << endl;
-  cout << p4;
-  cout << endl << endl;
 
   p3.print();
   cout << endl;
   p4.print();
 
-
   cout << "P4 <= P3? " << (p4 <= p3) << endl;
-
-/*
-  // Is P1 <= P???
-  bool subset = true;
-  for (map<std::string, vector<int> >::const_iterator it1 = p1.begin(); it1 != p1.end() && subset == true; ++it1)
-  {
-    subset = false;
-    key1 = it1->first;
-    groupVals1 = it1->second;
-
-    // Iterate through each group in P
-    for (map<std::string, vector<int> >::const_iterator it = p.begin(); it != p.end(); ++it)
-    {
-      key = it->first;
-      groupVals = it->second;
-
-      std::string pattern;
-
-      // Is the selected group in P1 a subset of a group in P?
-      if ( isSubset(groupVals1, groupVals) )
-      {
-        subset = true;
-        it == p.end();
-      }
-    }
-  }*/
-
- // std::cout << "Subset? " << subset<< std::endl;
 
   return 0;
 }
-/*
-// Is vector b a subset of vector a
-bool isSubset(const std::vector<int>& a, const std::vector<int>& b)
-{
-  bool found;
-  for (std::vector<int>::const_iterator i = a.begin(); i != a.end(); i++)
-  {
-    found = false;
-    for (std::vector<int>::const_iterator j = b.begin(); j != b.end() && (found == false); j++)
-    {
-      if (*i == *j)
-      {
-        found = true;
-      }
-    }
-    if (!found)
-      return false;
-  }
-  return true;
-}*/
 
 // setDecisionAttributes
 vector<int> setDecisionAttributes(Database<string> &db)
@@ -186,28 +123,6 @@ vector<int> setDecisionAttributes(Database<string> &db)
   //db.setDecisionAttrs(decisionAttrs);
 
   return decisionAttrs;
-}
-
-
-// Computes the partition for our attributes
-// @param a - the column numbers of our attributes
-map<std::string, vector<int> > computePartition(Database<string> &db, vector<int> a)
-{
-  map<std::string, vector<int> > p;
-
-  // Push elements onto the map
-  std::string key;
-  for(unsigned int i = 0; i < db.getNumRows(); i++)
-  {
-    key = "";
-    for (unsigned int j = 0; j < a.size(); j++)
-    {
-      key += db[i][ a[j] ]; // Cols
-      if (j+1 < a.size() ) { key += ", "; }
-    }
-    p[key].push_back(i);
-  }
-  return p;
 }
 
 
