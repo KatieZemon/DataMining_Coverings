@@ -76,7 +76,25 @@ class Partition
          std::cout << " (" << key << ") }" << std::endl;
       }
     }
-/*
+
+    void printDistribution()
+    {
+      std::string key;
+      vector<int> groupVals;
+      unsigned int numOccurences = 0;
+
+      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it) {
+         key = it->first;
+         groupVals = it->second;
+
+         std::cout << "{";
+         for (unsigned int i = 0; i < groupVals.size(); i++)
+           std::cout << " " << groupVals[i] << ",";
+         std::cout << " (" << key << ") }" << std::endl;
+      }
+
+    }
+    /*
     friend std::ostream& operator<<(std::ostream &os, const Partition &p)
     {
       std::string key;
@@ -91,7 +109,7 @@ class Partition
          {
            os << " " << groupVals[i] << ",";
            cout << "hi: " << groupVals[i] << endl;
-         }
+         }5
          os<< " (" << key << ") }" << std::endl;
       }
       return os;

@@ -25,13 +25,14 @@ using namespace std;
 
 // Function prototypes
 vector<int> setDecisionAttributes(Database<string>& db);
-map<std::string, vector<int> > computePartition(Database<std::string>& db, vector<int> a);
-bool isSubset(const std::vector<int>& a, const std::vector<int>& b);
 
 int main()
 {
   Database<std::string> db;
   std::string fileName;
+  unsigned int maxNumAttr;
+  unsigned int minCoverage;
+  bool dropConditions;
 
   // Greeting
   std::cout << "This program will return all coverings for a given database " << std::endl << std::endl;
@@ -44,6 +45,22 @@ int main()
 
   // Initialize our database
   db.initDatabase(fileName);
+
+  // Get the maximum number of attributes that we should consider for a covering
+  // std::cout << "What is the maximum number of attributes that we should consider for a covering?" << std::endl;
+  //std::cin >> maxNumAttr;
+  maxNumAttr = 5;
+
+  // Get the minumum coverage required for reporting a rule
+  // std::cout << "What is the minimum coverage required for reporting a rule?" << std::endl;
+  //std::cin >> minCoverage;
+  minCoverage = 1;
+
+  // Should we drop unnecessary conditions?
+  //std::cout << "Should we drop unnecessary conditions?"
+  //cin >> dropConditions;
+  dropConditions = false;
+
 
   // Set our decision attributes
   vector<int> decisionAttributes = setDecisionAttributes(db);
@@ -81,7 +98,9 @@ vector<int>
 
   // Compute the partition of our decision attributes
   vector<int> n;
+  n.push_back(0);
   n.push_back(1);
+  n.push_back(3);
 
   Partition p3(db, decisionAttributes);
   Partition p4(db,n);
@@ -92,8 +111,12 @@ vector<int>
 
   cout << "P4 <= P3? " << (p4 <= p3) << endl;
 
+
+
   return 0;
 }
+
+
 
 // setDecisionAttributes
 vector<int> setDecisionAttributes(Database<string> &db)
