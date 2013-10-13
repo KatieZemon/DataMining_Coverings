@@ -9,24 +9,24 @@
 //**************************************************************************
 
 // Constructor to initialize our map
-Partition::Partition (const Database<std::string>& db, const std::vector<int>& a)
+Partition::Partition (const Database<std::string>& db, const Vector<unsigned int>& a)
 {
   m_attrs = a;
   std::string key;
   for(unsigned int i = 0; i < db.getNumRows(); i++)
   {
     key = "";
-    for (unsigned int j = 0; j < a.size(); j++)
+    for (unsigned int j = 0; j < a.getSize(); j++)
     {
       key += db[i][ a[j] ]; // Cols
-      if (j+1 < a.size() )
+      if (j+1 < a.getSize() )
       { key += ", ";}
     }
     m_map[key].push_back(i);
   }
 }
 
-map<std::string, vector<int> > Partition::getMap () const
+map<std::string, Vector<unsigned int> > Partition::getMap () const
 {
   return m_map;
 }
@@ -34,19 +34,19 @@ map<std::string, vector<int> > Partition::getMap () const
 bool Partition::operator<= (const Partition &p1) const
 {
   std::string key1, key;
-  vector<int> groupVals1, groupVals;
+  Vector<unsigned int> groupVals1, groupVals;
   bool subset = true;
-  map<std::string, vector<int> > map1;
+  map<std::string, Vector<unsigned int> > map1;
   map1 = p1.getMap();
 
-  for (map<std::string, vector<int> >::const_iterator it1 = m_map.begin(); it1 != m_map.end() && subset == true; ++it1)
+  for (map<std::string, Vector<unsigned int> >::const_iterator it1 = m_map.begin(); it1 != m_map.end() && subset == true; ++it1)
   {
     subset = false;
     key1 = it1->first;
     groupVals1 = it1->second;
 
     // Iterate through each group in P
-    for (map<std::string, vector<int> >::const_iterator it = map1.begin(); it != map1.end(); ++it)
+    for (map<std::string, Vector<unsigned int> >::const_iterator it = map1.begin(); it != map1.end(); ++it)
     {
       key = it->first;
       groupVals = it->second;

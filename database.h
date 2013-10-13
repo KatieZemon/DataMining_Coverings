@@ -155,6 +155,15 @@ class Database : public virtual Matrix<T>
     // *********************************************************************
     void setDecisionAttrs(Vector<unsigned int> decisionAttrs);
 
+    // *********************************************************************
+    // @fn     getDecisionAttrs
+    // @brief  Return a list of the decision attributes
+    // @pre    None
+    // @post   returns the names of all of the decision attributes
+    // *********************************************************************
+    Vector<unsigned int> getDecisionAttrs();
+
+
   protected:
     Vector<Attribute> m_attributes;
 };

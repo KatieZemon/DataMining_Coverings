@@ -9,12 +9,11 @@
 #ifndef PARTITION_H
 #define PARTITION_H
 #include "vector.h"
-#include <vector>
 #include <map>
 #include "database.h"
 using namespace std;
 
-bool isSubset (const std::vector<int>& a, const std::vector<int>& b);
+bool isSubset (const Vector<unsigned int>& a, const Vector<unsigned int>& b);
 // *************************************************************************
 // @class Partition
 // @brief Functions used for creating a Partition
@@ -28,11 +27,11 @@ class Partition
     // @pre    None
     // @post   The number of sets within the partition is initialized to zero
     // *********************************************************************
-    Partition ();
+    Partition();
 
     // *********************************************************************
     // @fn     Partition
-    // @brief  Initialize our partition given a database and vector of attributes
+    // @brief  Initialize our partition given a database and Vector of attributes
     // @pre    a must be a set of data with no repeating values, and whose
     //         minimum value is zero and maximum value is the size of the
     //         dataset.
@@ -42,7 +41,7 @@ class Partition
     // @post   A partition will be created based on the selected database
     //         and attributes within that database
     // *********************************************************************
-    Partition (const Database<std::string>& db, const std::vector<int>& a);
+    Partition (const Database<std::string>& db, const Vector<unsigned int>& a);
 
     // *********************************************************************
     // @fn     Partition
@@ -65,47 +64,57 @@ class Partition
     void print (Database<std::string>& db)
     {
       std::string key;
-      vector<int> groupVals;
-
+      Vector<unsigned int> groupVals;
+      Vector<unsigned int> decisionAttrs = db.getDecisionAttrs();
 
       std::cout << "Rules for covering [";
       // Print out the names of the attributes for this partition
-      for (unsigned int i = 0; i < m_attrs.size(); ++i)
+      for (unsigned int i = 0; i < m_attrs.getSize(); ++i)
       {
         std::cout << db.getAttr( m_attrs[i] ).getName();
-        if (i < m_attrs.size() - 1)
+        if (i < m_attrs.getSize() - 1)
           std::cout << ", ";
       }
       std::cout << "]:" << std::endl;
 
-      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
+      for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
       {
         key = it->first;
         groupVals = it->second;
 
-        std::cout << "[[" << key << "], " << groupVals.size() << "]" << std::endl;
+        std::cout << "[[" << key;
+
+        std::cout<< decisionAttrs.getSize();
+
+        // Print the decision attributes for this instance
+        for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
+        {
+          std::cout << ", " << db[ groupVals[0] ][ decisionAttrs[i] ];
+        }
+
+        std::cout << "], " << groupVals.getSize() << "]" << std::endl;
       }
     }
 
     void printDistribution (Database<std::string>& db)
     {
       std::string key;
-      vector<int> groupVals;
+      Vector<unsigned int> groupVals;
 
       cout << "Distribution of values for attribute ";
-      for (unsigned int i = 0; i < m_attrs.size(); ++i)
+      for (unsigned int i = 0; i < m_attrs.getSize(); ++i)
       {
         std::cout << db.getAttr( m_attrs[i] ).getName();
-        if (i < m_attrs.size() - 1)
+        if (i < m_attrs.getSize() - 1)
           std::cout << ", ";
       }
       std::cout << ":" << std::endl;
 
-      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
+      for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
       {
         key = it->first;
         groupVals = it->second;
-        std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.size() << std::endl;
+        std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize() << std::endl;
       }
 
     }
@@ -113,9 +122,9 @@ class Partition
      friend std::ostream& operator<<(std::ostream &os, const Partition &p)
      {
      std::string key;
-     vector<int> groupVals;
+     Vector<int> groupVals;
 
-     for (map<std::string, vector<int> >::const_iterator it = p.getMap().begin(); it != p.getMap().end(); ++it) {
+     for (map<std::string, Vector<int> >::const_iterator it = p.getMap().begin(); it != p.getMap().end(); ++it) {
      key = it->first;
      groupVals = it->second;
 
@@ -143,25 +152,26 @@ class Partition
     // @fn     getNumGroups
     // @brief  returns the total number of groups within our partition
     // @pre    none
-    // @post   Returns the size of our m_partitionGroup vector
+    // @post   Returns the size of our m_partitionGroup Vector
     // *********************************************************************
-    map<std::string, vector<int> > getMap () const;
+    map<std::string, Vector<unsigned int> > getMap () const;
 
   private:
-    map<std::string, vector<int> > m_map;
-    vector<int> m_attrs; // Each partition is associated with one or more attributes
+    map<std::string, Vector<unsigned int> > m_map;
+    Vector<unsigned int> m_attrs; // Each partition is associated with one or more attributes
 };
 
 #include "partition.hpp"
 #endif
 
-bool isSubset (const std::vector<int>& a, const std::vector<int>& b)
+bool isSubset (const Vector<unsigned int>& a, const Vector<unsigned int>& b)
 {
+/*
   bool found;
-  for (std::vector<int>::const_iterator i = a.begin(); i != a.end(); i++)
+  for (Vector<unsigned int>::const_iterator i = a.begin(); i != a.end(); i++)
   {
     found = false;
-    for (std::vector<int>::const_iterator j = b.begin(); j != b.end() && (found == false); j++)
+    for (Vector<unsigned int>::const_iterator j = b.begin(); j != b.end() && (found == false); j++)
     {
       if (*i == *j)
       {
@@ -170,6 +180,6 @@ bool isSubset (const std::vector<int>& a, const std::vector<int>& b)
     }
     if (!found)
       return false;
-  }
+  }*/
   return true;
 }

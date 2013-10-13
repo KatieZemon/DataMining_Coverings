@@ -24,7 +24,7 @@
 using namespace std;
 
 // Function prototypes
-vector<int> setDecisionAttributes(Database<string>& db);
+Vector<unsigned int> setDecisionAttributes(Database<string>& db);
 
 int main()
 {
@@ -63,7 +63,7 @@ int main()
 
 
   // Set our decision attributes
-  vector<int> decisionAttributes = setDecisionAttributes(db);
+  Vector<unsigned int> decisionAttributes = setDecisionAttributes(db);
 /*
   // Print Database values
   cout << "Our data values are as follows: " << std::endl;
@@ -97,7 +97,7 @@ vector<int>
   // *** Rule of Induction Algorithm ***
 
   // Compute the partition of our decision attributes
-  vector<int> n;
+  Vector<unsigned int> n;
   n.push_back(0);
   n.push_back(1);
   n.push_back(3);
@@ -110,21 +110,18 @@ vector<int>
   cout << endl;
   p4.print(db);
 
-  cout << "P4 <= P3? " << (p4 <= p3) << endl;
-
-
+  //cout << "P4 <= P3? " << (p4 <= p3) << endl;
 
   return 0;
 }
 
 
-
 // setDecisionAttributes
-vector<int> setDecisionAttributes(Database<string> &db)
+Vector<unsigned int> setDecisionAttributes(Database<string> &db)
 {
   string input;
   unsigned int singleVal;
-  vector<int> decisionAttrs; // selected decision attributes
+  Vector<unsigned int> decisionAttrs; // selected decision attributes
 
   // Print our menu
   cout << "~~Menu~~ " << endl;
@@ -144,7 +141,7 @@ vector<int> setDecisionAttributes(Database<string> &db)
   while(iss >> singleVal)
     decisionAttrs.push_back( singleVal - 1 );
 
-  //db.setDecisionAttrs(decisionAttrs);
+ db.setDecisionAttrs(decisionAttrs);
 
   return decisionAttrs;
 }

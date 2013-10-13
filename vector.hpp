@@ -21,6 +21,7 @@ Vector<T>::Vector ()
 template<class T>
 Vector<T>::Vector (const unsigned int numCoefficients)
 {
+
   m_size = numCoefficients;
   m_max_size = 1;
 
@@ -36,6 +37,9 @@ Vector<T>::Vector (const unsigned int numCoefficients)
 template<class T>
 Vector<T>::Vector (const Vector<T> &v)
 {
+  m_size = 0;
+  m_max_size = 1;
+  m_data = NULL;
   *this = v;
 }
 
@@ -227,14 +231,12 @@ Vector<T>& Vector<T>::operator-= (const Vector<T> &rhs)
 }
 
 // getMaxSize
-template <class T>
+template<class T>
 unsigned int Vector<T>::getMaxSize () const
 {
   // Maximum size of the vector
   return m_max_size;
 }
-
-
 
 // Operator == for Vector == Vector
 template<class T>
@@ -364,7 +366,7 @@ void Vector<T>::clear ()
   if (0 != m_size)
   {
     // Set the initial values for size and max size
-    m_size     = 0;
+    m_size = 0;
     m_max_size = 1;
 
     // Delete all the data
@@ -401,7 +403,7 @@ Vector<T> Vector<T>::proj (const Vector<T> &u, const Vector<T> &v) const
 template<typename T>
 void Vector<T>::setSize (unsigned int numCoefficients)
 {
-  this -> clear();
+  this->clear();
   m_size = numCoefficients;
   m_max_size = 1;
 
@@ -409,6 +411,6 @@ void Vector<T>::setSize (unsigned int numCoefficients)
   while (numCoefficients > m_max_size)
     m_max_size *= 2;
 
-   m_data = new T[m_max_size];
+  m_data = new T[m_max_size];
 }
 

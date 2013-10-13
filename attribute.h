@@ -115,14 +115,6 @@ class Attribute
     void setPossibleVals(const std::string possibleVals);
 
     // *********************************************************************
-    // @fn     setPossibleVals
-    // @brief  set the Attribute possible values
-    // @pre    None
-    // @post   The Attribute possible values have been set
-    // *********************************************************************
-  //  void setPossibleVals(const Vector<string> possibleVals);
-
-    // *********************************************************************
     // @fn     setDecision
     // @brief  Specify whether the attribute is a decision attribute
     // @pre    None
