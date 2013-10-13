@@ -84,8 +84,6 @@ class Partition
 
         std::cout << "[[" << key;
 
-        std::cout<< decisionAttrs.getSize();
-
         // Print the decision attributes for this instance
         for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
         {

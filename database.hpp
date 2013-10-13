@@ -154,7 +154,6 @@ Vector<unsigned int> Database<T>::getDecisionAttrs()
 
   for (unsigned int i = 0; i < m_attributes.getSize(); i++)
   {
-    std::cout<< "m_attribute numer: " << i << "decision? " << m_attributes[i].isDecision() << std::endl;
     if ( m_attributes[i].isDecision() )
     {
       decisionAttrs.push_back(i);
