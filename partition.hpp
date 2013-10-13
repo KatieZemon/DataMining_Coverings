@@ -11,6 +11,7 @@
 // Constructor to initialize our map
 Partition::Partition (const Database<std::string>& db, const std::vector<int>& a)
 {
+  m_attrs = a;
   std::string key;
   for(unsigned int i = 0; i < db.getNumRows(); i++)
   {

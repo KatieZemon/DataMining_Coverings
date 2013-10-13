@@ -92,7 +92,7 @@ void Attribute::setDecision(const bool isDecision)
     m_typeIsDecision = false;
 }
 
-// setDecision
+// setNumeric
 void Attribute::setNumeric(const bool isNumeric)
 {
   if (isNumeric)

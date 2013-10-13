@@ -105,7 +105,8 @@ vector<int>
   Partition p3(db, decisionAttributes);
   Partition p4(db,n);
 
-  p3.print();
+  // Print Results
+  p3.printDistribution(db);
   cout << endl;
   p4.print();
 

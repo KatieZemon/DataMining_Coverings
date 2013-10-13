@@ -14,7 +14,7 @@
 #include "database.h"
 using namespace std;
 
-bool isSubset(const std::vector<int>& a, const std::vector<int>& b);
+bool isSubset (const std::vector<int>& a, const std::vector<int>& b);
 // *************************************************************************
 // @class Partition
 // @brief Functions used for creating a Partition
@@ -28,7 +28,7 @@ class Partition
     // @pre    None
     // @post   The number of sets within the partition is initialized to zero
     // *********************************************************************
-    Partition();
+    Partition ();
 
     // *********************************************************************
     // @fn     Partition
@@ -61,60 +61,67 @@ class Partition
     // *********************************************************************
     // ~Partition();
 
-    void print()
+    void print ()
     {
       std::string key;
       vector<int> groupVals;
 
-      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it) {
-         key = it->first;
-         groupVals = it->second;
+      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
+      {
+        key = it->first;
+        groupVals = it->second;
 
-         std::cout << "{";
-         for (unsigned int i = 0; i < groupVals.size(); i++)
-           std::cout << " " << groupVals[i] << ",";
-         std::cout << " (" << key << ") }" << std::endl;
+        std::cout << "{";
+        for (unsigned int i = 0; i < groupVals.size(); i++)
+          std::cout << " " << groupVals[i] << ",";
+        std::cout << " (" << key << ") }" << std::endl;
       }
     }
 
-    void printDistribution()
+    void printDistribution (Database<std::string> &db)
     {
       std::string key;
       vector<int> groupVals;
-      unsigned int numOccurences = 0;
 
-      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it) {
-         key = it->first;
-         groupVals = it->second;
-
-         std::cout << "{";
-         for (unsigned int i = 0; i < groupVals.size(); i++)
-           std::cout << " " << groupVals[i] << ",";
-         std::cout << " (" << key << ") }" << std::endl;
+      cout << "Distribution of values for attribute ";
+      for (unsigned int i = 0; i < m_attrs.size(); ++i)
+      {
+        std::cout << db.getAttr(i).getName();
+        if (i <  m_attrs.size() - 1)
+          std::cout << ", ";
       }
+      std::cout << ":" << std::endl;
+
+      for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
+      {
+        key = it->first;
+        groupVals = it->second;
+        std::cout << "\tValue: " << key << "\tOccurrences: " << groupVals.size() << std::endl;
+      }
+
 
     }
     /*
-    friend std::ostream& operator<<(std::ostream &os, const Partition &p)
-    {
-      std::string key;
-      vector<int> groupVals;
+     friend std::ostream& operator<<(std::ostream &os, const Partition &p)
+     {
+     std::string key;
+     vector<int> groupVals;
 
-      for (map<std::string, vector<int> >::const_iterator it = p.getMap().begin(); it != p.getMap().end(); ++it) {
-         key = it->first;
-         groupVals = it->second;
+     for (map<std::string, vector<int> >::const_iterator it = p.getMap().begin(); it != p.getMap().end(); ++it) {
+     key = it->first;
+     groupVals = it->second;
 
-         os << "{";
-         for (unsigned int i = 0; i < groupVals.size(); i++)
-         {
-           os << " " << groupVals[i] << ",";
-           cout << "hi: " << groupVals[i] << endl;
-         }5
-         os<< " (" << key << ") }" << std::endl;
-      }
-      return os;
-    }
-*/
+     os << "{";
+     for (unsigned int i = 0; i < groupVals.size(); i++)
+     {
+     os << " " << groupVals[i] << ",";
+     cout << "hi: " << groupVals[i] << endl;
+     }5
+     os<< " (" << key << ") }" << std::endl;
+     }
+     return os;
+     }
+     */
 
     // *********************************************************************
     // @fn     operator <=
@@ -130,17 +137,17 @@ class Partition
     // @pre    none
     // @post   Returns the size of our m_partitionGroup vector
     // *********************************************************************
-    map<std::string, vector<int> > getMap() const;
-
+    map<std::string, vector<int> > getMap () const;
 
   private:
     map<std::string, vector<int> > m_map;
+    vector<int> m_attrs; // Each partition is associated with one or more attributes
 };
 
 #include "partition.hpp"
 #endif
 
-bool isSubset(const std::vector<int>& a, const std::vector<int>& b)
+bool isSubset (const std::vector<int>& a, const std::vector<int>& b)
 {
   bool found;
   for (std::vector<int>::const_iterator i = a.begin(); i != a.end(); i++)
