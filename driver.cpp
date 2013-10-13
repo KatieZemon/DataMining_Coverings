@@ -108,7 +108,7 @@ vector<int>
   // Print Results
   p3.printDistribution(db);
   cout << endl;
-  p4.print();
+  p4.print(db);
 
   cout << "P4 <= P3? " << (p4 <= p3) << endl;
 

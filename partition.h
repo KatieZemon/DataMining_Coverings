@@ -61,24 +61,33 @@ class Partition
     // *********************************************************************
     // ~Partition();
 
-    void print ()
+    // Print our covering
+    void print (Database<std::string>& db)
     {
       std::string key;
       vector<int> groupVals;
+
+
+      std::cout << "Rules for covering [";
+      // Print out the names of the attributes for this partition
+      for (unsigned int i = 0; i < m_attrs.size(); ++i)
+      {
+        std::cout << db.getAttr( m_attrs[i] ).getName();
+        if (i < m_attrs.size() - 1)
+          std::cout << ", ";
+      }
+      std::cout << "]:" << std::endl;
 
       for (map<std::string, vector<int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
       {
         key = it->first;
         groupVals = it->second;
 
-        std::cout << "{";
-        for (unsigned int i = 0; i < groupVals.size(); i++)
-          std::cout << " " << groupVals[i] << ",";
-        std::cout << " (" << key << ") }" << std::endl;
+        std::cout << "[[" << key << "], " << groupVals.size() << "]" << std::endl;
       }
     }
 
-    void printDistribution (Database<std::string> &db)
+    void printDistribution (Database<std::string>& db)
     {
       std::string key;
       vector<int> groupVals;
@@ -86,8 +95,8 @@ class Partition
       cout << "Distribution of values for attribute ";
       for (unsigned int i = 0; i < m_attrs.size(); ++i)
       {
-        std::cout << db.getAttr(i).getName();
-        if (i <  m_attrs.size() - 1)
+        std::cout << db.getAttr( m_attrs[i] ).getName();
+        if (i < m_attrs.size() - 1)
           std::cout << ", ";
       }
       std::cout << ":" << std::endl;
@@ -96,9 +105,8 @@ class Partition
       {
         key = it->first;
         groupVals = it->second;
-        std::cout << "\tValue: " << key << "\tOccurrences: " << groupVals.size() << std::endl;
+        std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.size() << std::endl;
       }
-
 
     }
     /*
