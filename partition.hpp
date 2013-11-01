@@ -31,30 +31,30 @@ map<std::string, Vector<unsigned int> > Partition::getMap () const
   return m_map;
 }
 
+// Check if P <= P1
 bool Partition::operator<= (const Partition &p1) const
 {
   std::string key1, key;
   Vector<unsigned int> groupVals1, groupVals;
-  bool subset = true;
+  bool subset = true; // Is every block in P a subset of one of the sets in P1?
   map<std::string, Vector<unsigned int> > map1;
   map1 = p1.getMap();
 
-  for (map<std::string, Vector<unsigned int> >::const_iterator it1 = m_map.begin(); it1 != m_map.end() && subset == true; ++it1)
+  // Iterate through every block in P
+  for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end() && subset == true; ++it)
   {
     subset = false;
-    key1 = it1->first;
-    groupVals1 = it1->second;
+    key = it->first;
+    groupVals = it->second;
 
-    // Iterate through each group in P
-    for (map<std::string, Vector<unsigned int> >::const_iterator it = map1.begin(); it != map1.end(); ++it)
+    // Iterate through every set in P1
+    for (map<std::string, Vector<unsigned int> >::const_iterator it1 = map1.begin(); it1 != map1.end(); ++it1)
     {
-      key = it->first;
-      groupVals = it->second;
+      key1 = it1->first;
+      groupVals1 = it1->second;
 
-      std::string pattern;
-
-      // Is the selected group in P1 a subset of a group in P?
-      if (isSubset(groupVals1, groupVals))
+      // This block in P must be a subset of one of the blocks in P1
+      if (isSubset(groupVals, groupVals1))
       {
         subset = true;
         it == map1.end();
@@ -63,4 +63,6 @@ bool Partition::operator<= (const Partition &p1) const
   }
   return subset;
 }
+
+
 

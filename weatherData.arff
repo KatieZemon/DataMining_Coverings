@@ -1,0 +1,23 @@
+@relati5on table3_10_fg
+
+@attribute Outlook {sunny,overcast,rainy}
+@attribute Temperature {hot,mild,cool}
+@attribute Humidity {high,normal}
+@attribute Windy {FALSE,TRUE}
+@attribute Play {no,yes}
+
+@data
+sunny,hot,high,FALSE,no
+sunny,hot,high,TRUE,no
+sunny,mild,high,FALSE,no
+sunny,cool,normal,FALSE,yes
+sunny,mild,normal,TRUE,yes
+overcast,hot,high,FALSE,yes
+overcast,cool,normal,TRUE,yes
+overcast,mild,high,TRUE,yes
+overcast,hot,normal,FALSE,yes
+rainy,mild,high,FALSE,yes
+rainy,cool,normal,FALSE,yes
+rainy,cool,normal,TRUE,no
+rainy,mild,normal,FALSE,yes
+rainy,mild,high,TRUE,no

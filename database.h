@@ -159,9 +159,17 @@ class Database : public virtual Matrix<T>
     // @fn     getDecisionAttrs
     // @brief  Return a list of the decision attributes
     // @pre    None
-    // @post   returns the names of all of the decision attributes
+    // @post   returns the indices of all of the decision attributes
     // *********************************************************************
     Vector<unsigned int> getDecisionAttrs();
+
+    // *********************************************************************
+    // @fn     getNonDecisionAttrs
+    // @brief  Return a list of the non-decision attributes
+    // @pre    None
+    // @post   returns the indices of all of the non-decision attributes
+    // *********************************************************************
+    Vector<unsigned int> getNonDecisionAttrs();
 
 
   protected:

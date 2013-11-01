@@ -60,7 +60,7 @@ class Partition
     // *********************************************************************
     // ~Partition();
 
-    // Print our covering
+    // Print our rule sets
     void print (Database<std::string>& db)
     {
       std::string key;
@@ -89,9 +89,14 @@ class Partition
         {
           std::cout << ", " << db[ groupVals[0] ][ decisionAttrs[i] ];
         }
+        std::cout << "], " << groupVals.getSize() << "]";
 
-        std::cout << "], " << groupVals.getSize() << "]" << std::endl;
+        // Remove Later
+        for (int i = 0; i < groupVals.getSize(); i++)
+                cout << groupVals[i] << " ";
+        std::cout<< std::endl;
       }
+
     }
 
     void printDistribution (Database<std::string>& db)
@@ -112,7 +117,13 @@ class Partition
       {
         key = it->first;
         groupVals = it->second;
-        std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize() << std::endl;
+        //std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize(); << std::endl;
+
+        // Remove LAter
+        std::cout << "  Value: " << key << "\tOccurrences: ";
+        for (int i = 0; i < groupVals.getSize(); i++)
+          cout << groupVals[i] << " ";
+        std::cout<< std::endl;
       }
 
     }
@@ -162,22 +173,45 @@ class Partition
 #include "partition.hpp"
 #endif
 
-bool isSubset (const Vector<unsigned int>& a, const Vector<unsigned int>& b)
+
+// Is v1 a subset of v2
+// Assumes no repeating elements in either v1 or v2
+bool isSubset (const Vector<unsigned int>& v1, const Vector<unsigned int>& v2)
 {
-/*
-  bool found;
-  for (Vector<unsigned int>::const_iterator i = a.begin(); i != a.end(); i++)
+
+  bool found = false;
+
+  if (v1.getSize() > v2.getSize())
+  {
+    return false;
+  }
+
+  for (unsigned int i = 0; i < v1.getSize(); i++)
   {
     found = false;
-    for (Vector<unsigned int>::const_iterator j = b.begin(); j != b.end() && (found == false); j++)
+    // Check that the ith element in v1 is located within v2
+    for (unsigned int j = 0; j < v2.getSize() && found == false; j++)
     {
-      if (*i == *j)
-      {
+      if (v1[i] == v2[j])
         found = true;
-      }
     }
-    if (!found)
+
+    // If the current element in v1 was not found in v2, it is not a subset
+    if (found == false)
       return false;
-  }*/
+  }
   return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

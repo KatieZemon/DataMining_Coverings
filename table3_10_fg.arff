@@ -1,22 +1,18 @@
-@relati5on table3_10_fg
+@relation table3_10_fg
 
-@attribute Outlook {sunny,overcast,rainy}
-@attribute Temperature {hot,mild,cool}
-@attribute Humidity {high,normal}
-@attribute Windy {FALSE,TRUE}
-@attribute Play {no,yes}
+@attribute a numeric
+@attribute b {L,R,S}
+@attribute c numeric
+@attribute d {L,H}
+@attribute f numeric
+@attribute g {L,H}
 
 @data
-sunny,hot,high,FALSE,no
-rainy,cool,high,TRUE,no
-overcast,hot,high,FALSE,yes
-rainy,mild,high,FALSE,yes
-rainy,cool,normal,TRUE,no
-overcast,cool,normal,TRUE,yes
-sunny,mild,high,FALSE,no
-sunny,cool,normal,FALSE,yes
-rainy,mild,normal,FALSE,yes
-sunny,mild,normal,TRUE,yes
-overcast,mild,high,TRUE,yes
-overcast,hot,normal,FALSE,yes
-rainy,mild,high,TRUE,no
+0,L,0,L,0,L
+0,R,1,L,1,L
+0,L,0,L,0,L
+0,R,1,L,1,L
+1,R,0,L,2,H
+1,R,0,L,2,H
+2,S,2,H,3,H
+2,S,2,H,3,H

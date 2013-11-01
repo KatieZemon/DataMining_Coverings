@@ -162,6 +162,21 @@ Vector<unsigned int> Database<T>::getDecisionAttrs()
   return decisionAttrs;
 }
 
+template<class T>
+Vector<unsigned int> Database<T>::getNonDecisionAttrs()
+{
+  Vector<unsigned int> nonDecisionAttrs;
+
+  for (unsigned int i = 0; i < m_attributes.getSize(); i++)
+  {
+    if ( !m_attributes[i].isDecision() )
+    {
+      nonDecisionAttrs.push_back(i);
+    }
+  }
+  return nonDecisionAttrs;
+}
+
 
 
 
