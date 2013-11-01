@@ -332,6 +332,8 @@ class Vector
     ///////////////////////////////////////////////////////////////////////
     unsigned int getMaxSize () const;
 
+    bool isSubset (const Vector<T>& v2);
+
   protected:
     // Holds the coefficients within the vector. This is dynamically allocated
     // so that we can set the size at runtime.

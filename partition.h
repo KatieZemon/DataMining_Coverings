@@ -13,7 +13,6 @@
 #include "database.h"
 using namespace std;
 
-bool isSubset (const Vector<unsigned int>& a, const Vector<unsigned int>& b);
 // *************************************************************************
 // @class Partition
 // @brief Functions used for creating a Partition
@@ -173,35 +172,6 @@ class Partition
 #include "partition.hpp"
 #endif
 
-
-// Is v1 a subset of v2
-// Assumes no repeating elements in either v1 or v2
-bool isSubset (const Vector<unsigned int>& v1, const Vector<unsigned int>& v2)
-{
-
-  bool found = false;
-
-  if (v1.getSize() > v2.getSize())
-  {
-    return false;
-  }
-
-  for (unsigned int i = 0; i < v1.getSize(); i++)
-  {
-    found = false;
-    // Check that the ith element in v1 is located within v2
-    for (unsigned int j = 0; j < v2.getSize() && found == false; j++)
-    {
-      if (v1[i] == v2[j])
-        found = true;
-    }
-
-    // If the current element in v1 was not found in v2, it is not a subset
-    if (found == false)
-      return false;
-  }
-  return true;
-}
 
 
 

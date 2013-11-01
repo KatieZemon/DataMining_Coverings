@@ -52,9 +52,8 @@ bool Partition::operator<= (const Partition &p1) const
     {
       key1 = it1->first;
       groupVals1 = it1->second;
-
       // This block in P must be a subset of one of the blocks in P1
-      if (isSubset(groupVals, groupVals1))
+      if (groupVals.isSubset(groupVals1))
       {
         subset = true;
         it == map1.end();
@@ -63,6 +62,7 @@ bool Partition::operator<= (const Partition &p1) const
   }
   return subset;
 }
+
 
 
 

@@ -414,3 +414,34 @@ void Vector<T>::setSize (unsigned int numCoefficients)
   m_data = new T[m_max_size];
 }
 
+
+
+// v1.isSubset(v2) Is v1 a subset of v2
+// Assumes no repeating elements in either v1 or v2
+template<typename T>
+bool Vector<T>::isSubset (const Vector<T>& v2)
+{
+  bool found = false;
+  if (getSize() > v2.getSize())
+  {
+    return false;
+  }
+
+  for (unsigned int i = 0; i < getSize(); i++)
+  {
+    found = false;
+    // Check that the ith element in v1 is located within v2
+    for (unsigned int j = 0; j < v2.getSize() && found == false; j++)
+    {
+      if (m_data[i] == v2[j])
+        found = true;
+    }
+
+    // If the current element in v1 was not found in v2, it is not a subset
+    if (found == false)
+      return false;
+  }
+  return true;
+}
+
+
