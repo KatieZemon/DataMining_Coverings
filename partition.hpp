@@ -1,5 +1,5 @@
 //**************************************************************************
-//  Name:        Katie Isbell and Camaro Walker
+//  Name:        Katie Isbell
 //  File:        partitiongroup.hpp
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013

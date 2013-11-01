@@ -1,5 +1,5 @@
 // *************************************************************************
-//  Name:        Camaro Walker and Katie Isbell
+//  Name:        Katie Isbell
 //  File:        matrix.h
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013

@@ -1,5 +1,5 @@
 //**************************************************************************
-//  Name:        Camero Walker and Katie Isbell
+//  Name:        Katie Isbell
 //  File:        vector.h
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013
@@ -332,7 +332,23 @@ class Vector
     ///////////////////////////////////////////////////////////////////////
     unsigned int getMaxSize () const;
 
+    // *********************************************************************
+    // @fn     isSubset
+    // @brief  We determine whether the vector is a subset of Vector v2. It
+    //         is if our lhs vector contains values that are in our rhs vector,
+    //         v2.
+    // @pre    We assume that there are no repeating values in v1.
+    // @post   Returns true if the vector is a subset of another vector, v2.
+    // *********************************************************************
     bool isSubset (const Vector<T>& v2);
+
+    // *********************************************************************
+    // @fn     isEmpty
+    // @brief  Returns whether or not the vector is empty
+    // @pre    None
+    // @post   Returns false only if the size of the vector is zero
+    // *********************************************************************
+    bool isEmpty();
 
   protected:
     // Holds the coefficients within the vector. This is dynamically allocated

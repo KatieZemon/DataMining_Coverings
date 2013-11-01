@@ -1,11 +1,12 @@
-// //**************************************************************************
+//**************************************************************************
 //  Name:        Katie Isbell
-//  File:        thomas.hpp
-//  Assignment:  Assignment 6
-//  Date:        4/22/2013
-//  Course:      CS328
-//  Purpose:     This file computes the solution to Ax=b using Thomas'
-//               algorithm
+//  File:        rico.hpp
+//  Assignment:  Semester Project Programming Option
+//  Due Date:    12/6/2013
+//  Course:      CS301
+//  Purpose:     Header file for the RICO algorithm used to determine minimal
+//               coverings in order to produce the association rules for
+//               a dataset
 //**************************************************************************
 
 // Operator ()
@@ -82,6 +83,11 @@ void RICO::operator()(Database<std::string> &db)
     }
     left = newLeft;
     newLeft.clear();
+  }
+
+  if (coverings.getSize()==0)
+  {
+    std::cout << "There are no coverings!" << std::endl;
   }
 
 
