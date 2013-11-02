@@ -59,6 +59,9 @@ void Database<T>::initDatabase (const std::string fileName)
   std::ifstream file;
   file.open(fileName.c_str());
 
+  if (!(file.is_open()))
+    //throw Exception(SMELLY_POOP, "Eeewww!! It smells bad!"); // TODO: UH OH!!! That's not good
+
   // Read until we come across the word "@attribute" in our file
   do
   {

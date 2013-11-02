@@ -32,10 +32,11 @@ int main ()
   std::cout << "This program will return the minimum coverings for a given database " << std::endl << std::endl;
 
   // Get the file name
-  // std::cout << "What is the name of the read file?" << std::endl;
-  // std::cin >> fileName;
-  // std::cout << std::endl;*/
-  fileName = "weatherData.arff";
+   std::cout << "What is the name of the read file?" << std::endl;
+   std::cin >> fileName;
+   std::cout << std::endl;
+   std::cout << fileName;
+//  fileName = "weatherData.arff";
 
   // Read from file and initialize our database values
   db.initDatabase(fileName);

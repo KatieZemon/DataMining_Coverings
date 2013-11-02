@@ -13,7 +13,6 @@
 #include "divisionByZeroError.h"
 #include "subscriptRangeError.h"
 #include "sizeMismatchError.h"
-#include "exception.h"
 
 // *************************************************************************
 // @class Vector

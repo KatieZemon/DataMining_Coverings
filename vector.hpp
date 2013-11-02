@@ -104,7 +104,7 @@ void Vector<generic>::pop_back ()
   // Throw an error message if the array is too small
   if (m_size <= 0)
   {
-    throw Exception(CONTAINER_EMPTY, "The vector is already empty. Cannot pop off any more.");
+    throw SubscriptRangeError(m_size);
   }
 
   // Remove the end of the vector

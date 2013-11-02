@@ -70,18 +70,12 @@ void Attribute::setName(const std::string name)
 }
 
 // setPossibleVals with String input
-void Attribute::setPossibleVals(const string possibleVals)
+void Attribute::setPossibleVals(const std::string possibleVals)
 {
   if (possibleVals == "numeric")
     setNumeric(true);
   m_possibleVals = possibleVals;
 }
-/*
-// setPossibleVals with vector input
-void Attribute::setPossibleVals(const Vector<string> possibleVals)
-{str
-  m_possibleVals = possibleVals;
-}*/
 
 // setDecision
 void Attribute::setDecision(const bool isDecision)
