@@ -26,7 +26,7 @@ class Partition
     // @pre    None
     // @post   The number of sets within the partition is initialized to zero
     // *********************************************************************
-    Partition();
+    Partition ();
 
     // *********************************************************************
     // @fn     Partition
@@ -61,7 +61,7 @@ class Partition
       // Print out the names of the attributes for this partition
       for (unsigned int i = 0; i < m_attrs.getSize(); ++i)
       {
-        std::cout << db.getAttr( m_attrs[i] ).getName();
+        std::cout << db.getAttr(m_attrs[i]).getName();
         if (i < m_attrs.getSize() - 1)
           std::cout << ", ";
       }
@@ -74,34 +74,78 @@ class Partition
 
         std::cout << "[[" << key;
 
-
         // Print the decision attributes for this instance
         for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
         {
-          std::cout << ", " << db[ groupVals[0] ][ decisionAttrs[i] ];
+          std::cout << ", " << db[groupVals[0]][decisionAttrs[i]];
         }
         std::cout << "], " << groupVals.getSize() << "]";
 
-
         /*// TODO: Remove Later
-        for (unsigned int i = 0; i < groupVals.getSize(); i++)
-          cout << groupVals[i] << " ";*/
-        std::cout<< std::endl;
+         for (unsigned int i = 0; i < groupVals.getSize(); i++)
+         cout << groupVals[i] << " ";*/
+        std::cout << std::endl;
 
       }
 
     }
 
+    // Print the distribution for all possible combinations of the decision attributes
     void printDistribution (Database<std::string>& db)
+    {
+      Vector<unsigned int> v, right;
+      Vector<Vector<unsigned int> > left, newLeft, coverings;
+
+      for (unsigned int i = 0; i < m_attrs.getSize(); i++)
+      {
+        v.push_back(m_attrs[i]);
+        left.push_back(v);
+        right.push_back(m_attrs[i]);
+        printSingleDistribution(db, v);
+        std::cout << std::endl;
+        v.clear();
+      }
+      unsigned int nextLoc = 0;
+      unsigned int x = 0;
+      for (unsigned int m = 0; m < m_attrs.getSize()+1; m++)
+      {
+        for (unsigned int i = 0; i < left.getSize(); i++)
+        {
+          nextLoc = 0;
+          x = left[i][left[i].getSize() - 1]; // Last digit of array
+
+          for (unsigned int y = 0; x != right[y]; y++)
+            nextLoc++; // Location of first digit to grab from right
+
+          for (unsigned int j = nextLoc + 1; j < right.getSize(); j++) // Right half
+          {
+            for (unsigned int k = 0; k < left[i].getSize(); k++)
+            {
+              v.push_back(left[i][k]);
+            }
+            v.push_back(right[j]);
+            printSingleDistribution(db, v);
+            std::cout << std::endl;
+            newLeft.push_back(v);
+
+            v.clear();
+          }
+        }
+        left = newLeft;
+        newLeft.clear();
+      }
+    }
+
+    void printSingleDistribution (Database<std::string>& db, Vector<unsigned int> attrs)
     {
       std::string key;
       Vector<unsigned int> groupVals;
 
       cout << "Distribution of values for attribute ";
-      for (unsigned int i = 0; i < m_attrs.getSize(); ++i)
+      for (unsigned int i = 0; i < attrs.getSize(); ++i)
       {
-        std::cout << db.getAttr( m_attrs[i] ).getName();
-        if (i < m_attrs.getSize() - 1)
+        std::cout << db.getAttr(attrs[i]).getName();
+        if (i < attrs.getSize() - 1)
           std::cout << ", ";
       }
       std::cout << ":" << std::endl;
@@ -110,14 +154,11 @@ class Partition
       {
         key = it->first;
         groupVals = it->second;
-        //std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize(); << std::endl;
+        std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize() << std::endl;
 
-        // TODO:Remove LAter
-        std::cout << "  Value: " << key << "\tOccurrences: ";
-        std::cout << groupVals.getSize();
+        //TODO: Remove later
         //for (unsigned int i = 0; i < groupVals.getSize(); i++)
         //  cout << groupVals[i] << " ";
-        std::cout<< std::endl;
       }
 
     }
@@ -145,17 +186,4 @@ class Partition
 
 #include "partition.hpp"
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
 
