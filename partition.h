@@ -83,7 +83,7 @@ class Partition
         std::cout << "], " << groupVals.getSize() << "]";
 
 
-        /*// Remove Later
+        /*// TODO: Remove Later
         for (unsigned int i = 0; i < groupVals.getSize(); i++)
           cout << groupVals[i] << " ";*/
         std::cout<< std::endl;
@@ -112,10 +112,11 @@ class Partition
         groupVals = it->second;
         //std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize(); << std::endl;
 
-        // Remove LAter
+        // TODO:Remove LAter
         std::cout << "  Value: " << key << "\tOccurrences: ";
-        for (unsigned int i = 0; i < groupVals.getSize(); i++)
-          cout << groupVals[i] << " ";
+        std::cout << groupVals.getSize();
+        //for (unsigned int i = 0; i < groupVals.getSize(); i++)
+        //  cout << groupVals[i] << " ";
         std::cout<< std::endl;
       }
 
