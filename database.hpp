@@ -59,9 +59,9 @@ void Database<T>::initDatabase (const std::string fileName)
   std::ifstream file;
   file.open(fileName.c_str());
 
-  if(!file)
+  if (!file)
   {
-    std::cout<<"File did not open!" << std::endl;
+    std::cout << "File did not open!" << std::endl;
     throw SizeMismatchError();
   }
   // Read until we come across the word "@attribute" in our file
@@ -85,10 +85,10 @@ void Database<T>::initDatabase (const std::string fileName)
     file >> word; // Ignore the word "@attribute"
     numCols++;
   }
-  getline(file, word);
+  getline2(file, word);
 
   // Push database rows onto a vector
-  while (getline(file, word))
+  while (getline2(file, word))
   {
     listRows.push_back(word);
   }
@@ -109,6 +109,21 @@ void Database<T>::initDatabase (const std::string fileName)
   }
 
   file.close();
+}
+
+template<class T>
+std::basic_istream<char>& Database<T>::getline2 (std::basic_istream<char>& c, std::string& s)
+{
+
+  getline(c, s);
+
+  // Remove '\r' if we are using windows line delimiters
+  if ('\r' == s[s.size() - 1])
+  {
+    s.erase(s.size() - 1);
+  }
+
+  return c;
 }
 
 // Clear a Database
@@ -148,18 +163,18 @@ void Database<T>::setDecisionAttrs (Vector<unsigned int> decisionAttrs)
 {
   for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
   {
-    m_attributes[ decisionAttrs[i] ].setDecision(true);
+    m_attributes[decisionAttrs[i]].setDecision(true);
   }
 }
 
 template<class T>
-Vector<unsigned int> Database<T>::getDecisionAttrs()
+Vector<unsigned int> Database<T>::getDecisionAttrs ()
 {
   Vector<unsigned int> decisionAttrs;
 
   for (unsigned int i = 0; i < m_attributes.getSize(); i++)
   {
-    if ( m_attributes[i].isDecision() )
+    if (m_attributes[i].isDecision())
     {
       decisionAttrs.push_back(i);
     }
@@ -168,21 +183,17 @@ Vector<unsigned int> Database<T>::getDecisionAttrs()
 }
 
 template<class T>
-Vector<unsigned int> Database<T>::getNonDecisionAttrs()
+Vector<unsigned int> Database<T>::getNonDecisionAttrs ()
 {
   Vector<unsigned int> nonDecisionAttrs;
 
   for (unsigned int i = 0; i < m_attributes.getSize(); i++)
   {
-    if ( !m_attributes[i].isDecision() )
+    if (!m_attributes[i].isDecision())
     {
       nonDecisionAttrs.push_back(i);
     }
   }
   return nonDecisionAttrs;
 }
-
-
-
-
 

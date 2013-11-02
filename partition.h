@@ -50,15 +50,6 @@ class Partition
     // *********************************************************************
     Partition (const Partition &a);
 
-    // *********************************************************************
-    // @fn     ~Partition
-    // @brief  Destructor that clears the Partition
-    // @pre    None
-    // @post   The size of the Vector is set to zero and the data has been
-    //         cleared
-    // *********************************************************************
-    // ~Partition();
-
     // Print our rule sets
     void print (Database<std::string>& db)
     {
@@ -83,6 +74,7 @@ class Partition
 
         std::cout << "[[" << key;
 
+
         // Print the decision attributes for this instance
         for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
         {
@@ -90,10 +82,12 @@ class Partition
         }
         std::cout << "], " << groupVals.getSize() << "]";
 
-        // Remove Later
+
+        /*// Remove Later
         for (unsigned int i = 0; i < groupVals.getSize(); i++)
-                cout << groupVals[i] << " ";
+          cout << groupVals[i] << " ";*/
         std::cout<< std::endl;
+
       }
 
     }

@@ -26,56 +26,60 @@ int main ()
   Database<std::string> db;
   std::string fileName;
   RICO ruleOfInduction;
+  std::string repeatProgram = "y";
 
   // Greeting
-  std::cout << "This program will return the minimum coverings for a given database " << std::endl << std::endl;
+  std::cout << "This program will return the minimum coverings for a given database." << std::endl << std::endl;
+//  do
+ // {
+    // Get the file name
+    std::cout << "What is the name of the read file?" << std::endl;
+    getline(cin, fileName);
+    //TODO WITH CIN
 
-  // Get the file name
-   std::cout << "What is the name of the read file?" << std::endl;
-   getline(cin,fileName);
-   //TODO WITH CIN
+    // Read from file and initialize our database values
+    db.initDatabase(fileName);
 
-  // Read from file and initialize our database values
-  db.initDatabase(fileName);
+    // Display the menu and set the decision attributes based on user input
+    setDecisionAttributes(db);
 
-  // Display the menu and set the decision attributes based on user input
-  setDecisionAttributes(db);
+    // Compute Rule of Induction to get the minimal Coverings
+    ruleOfInduction(db);
 
-  // Compute Rule of Induction to get the minimal Coverings
-  ruleOfInduction(db);
+   // std::cout << "Again? (y/n)" << std::endl;
+   // getline(cin, repeatProgram);
+
+//  } while (repeatProgram == "y" || repeatProgram == "yes");
 
 }
 
-
 // setDecisionAttributes
-void setDecisionAttributes(Database<string> &db)
+void setDecisionAttributes (Database<string> &db)
 {
   string input;
   unsigned int singleVal;
   Vector<unsigned int> decisionAttrs; // selected decision attributes
 
   // Print our menu
-  cout << "~~Menu~~ " << endl;
+  cout << endl << "The attributes for this dataset are as follows: " << endl;
   for (unsigned int i = 0; i < db.getNumAttributes(); i++)
   {
-    cout << i+1 << ". " << db.getAttr(i).getName() << endl;
+    cout << i + 1 << ". " << db.getAttr(i).getName() << endl;
   }
   cout << endl;
 
   // Select the decision attributes
-  cout << "Select your decision attributes." << endl;
-  cout << "Enter numbers from the menu above separated by spaces" << endl;
+  cout << "Specify your decision attributes from the list above. " << endl;
+  cout << "Enter a list of numbers separated by spaces." << endl;
 
-  getline(cin,input);
+  getline(cin, input);
   std::istringstream iss(input);
 
-  while(iss >> singleVal)
-  decisionAttrs.push_back( singleVal - 1 );
+  while (iss >> singleVal)
+    decisionAttrs.push_back(singleVal - 1);
 
   db.setDecisionAttrs(decisionAttrs);
 }
-
-
 
 /*
  // Print Database values

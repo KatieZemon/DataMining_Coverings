@@ -171,6 +171,8 @@ class Database : public virtual Matrix<T>
     // *********************************************************************
     Vector<unsigned int> getNonDecisionAttrs();
 
+    std::basic_istream<char>& getline2(std::basic_istream<char>&, std::string&);
+
 
   protected:
     Vector<Attribute> m_attributes;
