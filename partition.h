@@ -91,7 +91,7 @@ class Partition
         std::cout << "], " << groupVals.getSize() << "]";
 
         // Remove Later
-        for (int i = 0; i < groupVals.getSize(); i++)
+        for (unsigned int i = 0; i < groupVals.getSize(); i++)
                 cout << groupVals[i] << " ";
         std::cout<< std::endl;
       }
@@ -120,33 +120,12 @@ class Partition
 
         // Remove LAter
         std::cout << "  Value: " << key << "\tOccurrences: ";
-        for (int i = 0; i < groupVals.getSize(); i++)
+        for (unsigned int i = 0; i < groupVals.getSize(); i++)
           cout << groupVals[i] << " ";
         std::cout<< std::endl;
       }
 
     }
-    /*
-     friend std::ostream& operator<<(std::ostream &os, const Partition &p)
-     {
-     std::string key;
-     Vector<int> groupVals;
-
-     for (map<std::string, Vector<int> >::const_iterator it = p.getMap().begin(); it != p.getMap().end(); ++it) {
-     key = it->first;
-     groupVals = it->second;
-
-     os << "{";
-     for (unsigned int i = 0; i < groupVals.size(); i++)
-     {
-     os << " " << groupVals[i] << ",";
-     cout << "hi: " << groupVals[i] << endl;
-     }5
-     os<< " (" << key << ") }" << std::endl;
-     }
-     return os;
-     }
-     */
 
     // *********************************************************************
     // @fn     operator <=

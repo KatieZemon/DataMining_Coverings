@@ -1,4 +1,4 @@
-@relati5on table3_10_fg
+@relation weatherData
 
 @attribute Outlook {sunny,overcast,rainy}
 @attribute Temperature {hot,mild,cool}

@@ -120,23 +120,6 @@ std::istream& operator>> (std::istream &in, Matrix<T2> &a)
 }
 
 
-/*
-  unsigned int i = 0;
-
-  while (getline(in,line))
-  {
-    iss << line;
-
-    for (unsigned int j = 0; j < numCols; j++)
-    {
-      getline(iss, a[i][j], ',');
-    }
-    iss.clear();
-    i++;
-  }
-  return in;
-  */
-
 
 
 /*

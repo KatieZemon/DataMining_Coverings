@@ -21,7 +21,6 @@
 // Function prototypes
 void setDecisionAttributes (Database<string>& db);
 
-
 int main ()
 {
   Database<std::string> db;
@@ -33,10 +32,8 @@ int main ()
 
   // Get the file name
    std::cout << "What is the name of the read file?" << std::endl;
-   std::cin >> fileName;
-   std::cout << std::endl;
-   std::cout << fileName;
-//  fileName = "weatherData.arff";
+   getline(cin,fileName);
+   //TODO WITH CIN
 
   // Read from file and initialize our database values
   db.initDatabase(fileName);
@@ -46,36 +43,6 @@ int main ()
 
   // Compute Rule of Induction to get the minimal Coverings
   ruleOfInduction(db);
-
-
-  /*
-   // Print Database values
-   cout << "Our data values are as follows: " << std::endl;
-   cout << db;
-   cout << "Number of instances: " << db.getNumInstances() << endl;
-   cout << "Number of attributes: " << db.getNumAttributes() << endl;
-   cout << "Row 4 data: " << db[4] << endl;
-   cout << "Row 4 column 1 data: " << db[4][1] << endl << endl;
-
-
-   // Print Attribute properties
-   cout << "Attribute Properties: " << endl;
-   for (unsigned int i = 0; i < db.getNumAttributes(); i++)
-   {
-   cout << db.getAttr(i).getName() << " "
-   << db.getAttr(i).getPossibleVals() << " ";
-
-   if (db.getAttr(i).isNumeric())
-   cout << "numeric ";
-   else
-   cout << "nominal ";
-   vector<int>
-   if (db.getAttr(i).isDecision())
-   cout << "decision ";
-   else
-   cout << "nondecision";
-   cout << endl;
-   }*/
 
 }
 
@@ -108,3 +75,33 @@ void setDecisionAttributes(Database<string> &db)
   db.setDecisionAttrs(decisionAttrs);
 }
 
+
+
+/*
+ // Print Database values
+ cout << "Our data values are as follows: " << std::endl;
+ cout << db;
+ cout << "Number of instances: " << db.getNumInstances() << endl;
+ cout << "Number of attributes: " << db.getNumAttributes() << endl;
+ cout << "Row 4 data: " << db[4] << endl;
+ cout << "Row 4 column 1 data: " << db[4][1] << endl << endl;
+
+
+ // Print Attribute properties
+ cout << "Attribute Properties: " << endl;
+ for (unsigned int i = 0; i < db.getNumAttributes(); i++)
+ {
+ cout << db.getAttr(i).getName() << " "
+ << db.getAttr(i).getPossibleVals() << " ";
+
+ if (db.getAttr(i).isNumeric())
+ cout << "numeric ";
+ else
+ cout << "nominal ";
+ vector<int>
+ if (db.getAttr(i).isDecision())
+ cout << "decision ";
+ else
+ cout << "nondecision";
+ cout << endl;
+ }*/
