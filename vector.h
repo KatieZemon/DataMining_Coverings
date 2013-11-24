@@ -263,7 +263,7 @@ class Vector
     // @param generic The variable that will be put on to the
     //        end of the vector
     // *********************************************************************
-    void push_back (const T);
+    void push_back (const T val);
 
     // *********************************************************************
     // @fn pop_back

@@ -4,13 +4,13 @@
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013
 //  Course:      CS301
-//  Purpose:     Header file for the RICO algorithm used to determine minimal
-//               coverings in order to produce the association rules for
-//               a dataset
+//  Purpose:     This class is used as a function to perform the RICO
+//               algorithm. RICO produces a set of association rules for
+//               a particular dataset and selected set of decision attributes.
 //**************************************************************************
 
 // Operator ()
-void RICO::operator()(Database<std::string> &db)
+void RICO::operator()(Dataset<std::string> &db)
 {
   Vector<unsigned int> nonDecisionAttrs = db.getNonDecisionAttrs();
   Partition p3(db, db.getDecisionAttrs());
@@ -30,6 +30,7 @@ void RICO::operator()(Database<std::string> &db)
     {
       coverings.push_back(v);
       p.print(db);
+      cout << endl;
     }
     else
     {
@@ -58,11 +59,7 @@ void RICO::operator()(Database<std::string> &db)
         v.push_back(right[j]);
 
         // Check if one of the previously declared coverings is a subset of v
-        if (isSubset(coverings,v))
-        {
-        }
-
-        else
+        if (!isSubset(coverings,v))
         {
           Partition p(db,v);
           if (p <= p3)
@@ -70,7 +67,6 @@ void RICO::operator()(Database<std::string> &db)
             coverings.push_back(v);
             p.print(db);
             cout << endl;
-
           }
           else
           {
@@ -85,6 +81,7 @@ void RICO::operator()(Database<std::string> &db)
     newLeft.clear();
   }
 
+  // Print a message if no coverings were found for this dataset
   if (coverings.getSize()==0)
   {
     std::cout << "There are no coverings!" << std::endl;

@@ -10,7 +10,7 @@
 #define PARTITION_H
 #include "vector.h"
 #include <map>
-#include "database.h"
+#include "dataset.h"
 using namespace std;
 
 // *************************************************************************
@@ -24,23 +24,23 @@ class Partition
     // @fn     Partition
     // @brief  Default Constructor
     // @pre    None
-    // @post   The number of sets within the partition is initialized to zero
+    // @post   The number of groups within the partition is initialized to zero
     // *********************************************************************
     Partition ();
 
     // *********************************************************************
     // @fn     Partition
-    // @brief  Initialize our partition given a database and Vector of attributes
+    // @brief  Initialize our partition given a Dataset and Vector of attributes
     // @pre    a must be a set of data with no repeating values, and whose
     //         minimum value is zero and maximum value is the size of the
     //         dataset.
-    // @param  db is the database
-    // @param  a is a list of column indices within our database. Our database will
+    // @param  db is the Dataset
+    // @param  a is a list of column indices within our Dataset. Our Dataset will
     //         be partitioned based on these selected attributes
-    // @post   A partition will be created based on the selected database
-    //         and attributes within that database
+    // @post   A partition will be created based on the selected Dataset
+    //         and attributes within that Dataset
     // *********************************************************************
-    Partition (const Database<std::string>& db, const Vector<unsigned int>& a);
+    Partition (const Dataset<std::string>& db, const Vector<unsigned int>& a);
 
     // *********************************************************************
     // @fn     Partition
@@ -50,118 +50,30 @@ class Partition
     // *********************************************************************
     Partition (const Partition &a);
 
-    // Print our rule sets
-    void print (Database<std::string>& db)
-    {
-      std::string key;
-      Vector<unsigned int> groupVals;
-      Vector<unsigned int> decisionAttrs = db.getDecisionAttrs();
+    // *********************************************************************
+    // @fn     print
+    // @brief  Prints the rules for the coverings found
+    // @pre    None
+    // @post   The rule sets for the covering is printed to the screen
+    // *********************************************************************
+    void print (Dataset<std::string>& db);
 
-      std::cout << "Rules for covering [";
-      // Print out the names of the attributes for this partition
-      for (unsigned int i = 0; i < m_attrs.getSize(); ++i)
-      {
-        std::cout << db.getAttr(m_attrs[i]).getName();
-        if (i < m_attrs.getSize() - 1)
-          std::cout << ", ";
-      }
-      std::cout << "]:" << std::endl;
+    // *********************************************************************
+    // @fn     printDistribution
+    // @brief  Prints the distribution for all possible combinations of
+    //         decision attributes
+    // @pre    None
+    // @post   The rule sets for the covering is printed to the screen
+    // *********************************************************************
+    void printDistribution (Dataset<std::string>& db);
 
-      for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
-      {
-        key = it->first;
-        groupVals = it->second;
-
-        std::cout << "[[" << key;
-
-        // Print the decision attributes for this instance
-        for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
-        {
-          std::cout << ", " << db[groupVals[0]][decisionAttrs[i]];
-        }
-        std::cout << "], " << groupVals.getSize() << "]";
-
-        /*// TODO: Remove Later
-         for (unsigned int i = 0; i < groupVals.getSize(); i++)
-         cout << groupVals[i] << " ";*/
-        std::cout << std::endl;
-
-      }
-
-    }
-
-    // Print the distribution for all possible combinations of the decision attributes
-    void printDistribution (Database<std::string>& db)
-    {
-      Vector<unsigned int> v, right;
-      Vector<Vector<unsigned int> > left, newLeft, coverings;
-
-      for (unsigned int i = 0; i < m_attrs.getSize(); i++)
-      {
-        v.push_back(m_attrs[i]);
-        left.push_back(v);
-        right.push_back(m_attrs[i]);
-        printSingleDistribution(db, v);
-        std::cout << std::endl;
-        v.clear();
-      }
-      unsigned int nextLoc = 0;
-      unsigned int x = 0;
-      for (unsigned int m = 0; m < m_attrs.getSize()+1; m++)
-      {
-        for (unsigned int i = 0; i < left.getSize(); i++)
-        {
-          nextLoc = 0;
-          x = left[i][left[i].getSize() - 1]; // Last digit of array
-
-          for (unsigned int y = 0; x != right[y]; y++)
-            nextLoc++; // Location of first digit to grab from right
-
-          for (unsigned int j = nextLoc + 1; j < right.getSize(); j++) // Right half
-          {
-            for (unsigned int k = 0; k < left[i].getSize(); k++)
-            {
-              v.push_back(left[i][k]);
-            }
-            v.push_back(right[j]);
-            printSingleDistribution(db, v);
-            std::cout << std::endl;
-            newLeft.push_back(v);
-
-            v.clear();
-          }
-        }
-        left = newLeft;
-        newLeft.clear();
-      }
-    }
-
-    void printSingleDistribution (Database<std::string>& db, Vector<unsigned int> attrs)
-    {
-      std::string key;
-      Vector<unsigned int> groupVals;
-
-      cout << "Distribution of values for attribute ";
-      for (unsigned int i = 0; i < attrs.getSize(); ++i)
-      {
-        std::cout << db.getAttr(attrs[i]).getName();
-        if (i < attrs.getSize() - 1)
-          std::cout << ", ";
-      }
-      std::cout << ":" << std::endl;
-
-      for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
-      {
-        key = it->first;
-        groupVals = it->second;
-        std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize() << std::endl;
-
-        //TODO: Remove later
-        //for (unsigned int i = 0; i < groupVals.getSize(); i++)
-        //  cout << groupVals[i] << " ";
-      }
-
-    }
+    // *********************************************************************
+    // @fn     printSingleDistribution
+    // @brief  This is a function called by printDistribution.
+    // @pre    None
+    // @post   The rule sets for the covering is printed to the screen
+    // *********************************************************************
+    void printSingleDistribution (Dataset<std::string>& db, Vector<unsigned int> attrs);
 
     // *********************************************************************
     // @fn     operator <=

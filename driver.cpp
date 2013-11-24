@@ -1,63 +1,91 @@
 //****************************************************************************
-//  Name:        Katie Isbell and Camaro Walker
+//  Name:        Katie Isbell
 //  File:        driver.cpp
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013
 //  Course:      CS301
 //  Purpose:     The purpose of this assignment is to produce association
-//               rules for a given database using the rule of induction for
-//               coverings
+//               rules for a given Dataset using the RICO algorithm
 //****************************************************************************
 #include <iostream>
 #include <sstream>
 #include <map>
 #include "vector.h"
 #include "matrix.h"
-#include "database.h"
+#include "dataset.h"
 #include "attribute.h"
 #include "rico.h"
 #include "partition.h"
+#include "incorrectInputError.h"
 
-// Function prototypes
-void setDecisionAttributes (Database<string>& db);
+//**********************************************************************
+// @fn     setDecisionAttributes
+// @brief  Prints a menu of attributes within the dataset and prompts
+//         the user to input the decision attributes. If input has been
+//         given correctly, it flags the user-selected attributes as
+//         decision attributes.
+// @param  db - The Dataset which we use to find the minimal coverings
+// @pre    We assume our Dataset has been initialized and that we have
+//         a variety of possible choices for our decision attribute.
+// @post   If input was correctly given, one or more attributes in our
+//         Dataset are now flagged as being decision attributes.
+//         Else an error will be printed to the screen telling the user
+//         that he/she did not pick valid values to represent the
+//         decision attributes
+//**********************************************************************
+void setDecisionAttributes (Dataset<string>& db);
 
+
+//**********************************************************************
+// @fn     printDecisionAttributes
+// @brief  Prints the names of the decision attributes that were selected
+// @param  db - The Dataset which we use to find the minimal coverings
+// @pre    We assume the decision attributes for our dataset have been
+//         set
+// @post   The names of the decision attributes are printed to the screen
+//**********************************************************************
+void printDecisionAttributes (Dataset<string>& db);
+
+//**********************************************************************
+// @fn     main
+// @brief  Main driver function for creating our Dataset and calling
+//         the RICO algorithm
+//**********************************************************************
 int main ()
 {
-  Database<std::string> db;
-  std::string fileName;
-  RICO ruleOfInduction;
-  std::string repeatProgram = "y";
+  Dataset<std::string> db; // Our Dataset
+  std::string fileName; // The name of our read file
+  RICO ruleOfInduction; // RICO algorithm
 
   // Greeting
-  std::cout << "This program will return the minimum coverings for a given database." << std::endl << std::endl;
-//  do
- // {
-    // Get the file name
-    std::cout << "What is the name of the read file?" << std::endl;
-    getline(cin, fileName);
-    //TODO WITH CIN
+  std::cout << "This program will return the minimum coverings for a given Dataset." << std::endl << std::endl;
 
-    // Read from file and initialize our database values
-    db.initDatabase(fileName);
+  // Get the file name
+  std::cout << "What is the name of the read file?" << std::endl;
+  fileName = "datasets/contactLenses.arff"; // getline(cin, fileName);
 
-    // Display the menu and set the decision attributes based on user input
-    setDecisionAttributes(db);
+  // Initialize Dataset values from the read file
+  db.initDataset(fileName);
 
-    // Compute Rule of Induction to get the minimal Coverings
-    ruleOfInduction(db);
+  // Display the menu and set the decision attributes based on user input
+  setDecisionAttributes(db);
 
-   // std::cout << "Again? (y/n)" << std::endl;
-   // getline(cin, repeatProgram);
+  // Print the decision attributes that were selected
+  printDecisionAttributes(db);
 
-//  } while (repeatProgram == "y" || repeatProgram == "yes");
+  // Compute Rule of Induction to get the minimal Coverings
+  ruleOfInduction(db);
 
 }
 
-// setDecisionAttributes
-void setDecisionAttributes (Database<string> &db)
+
+void setDecisionAttributes (Dataset<string> &db)
 {
   string input;
-  unsigned int singleVal;
+  unsigned int int_inputVal; // input value given by the user
+  string string_inputVal;   // input value given by the user
+  int numItemsInput = 0; // Total number of items input by the user
+  int numIntegersInput = 0; // The total number of items input by the user that are integers
   Vector<unsigned int> decisionAttrs; // selected decision attributes
 
   // Print our menu
@@ -68,44 +96,57 @@ void setDecisionAttributes (Database<string> &db)
   }
   cout << endl;
 
-  // Select the decision attributes
+  // Prompt the user to input a list of numbers
   cout << "Specify your decision attributes from the list above. " << endl;
   cout << "Enter a list of numbers separated by spaces." << endl;
-
   getline(cin, input);
-  std::istringstream iss(input);
 
-  while (iss >> singleVal)
-    decisionAttrs.push_back(singleVal - 1);
 
+  std::istringstream iss(input); // stringstream we use to iterate across all values input by the user
+  std::istringstream iss2(input); // stringstream we use to iterate across only integer values input by the user
+
+  // Count the number of total items input by the user
+  while (iss2 >> string_inputVal)
+  {
+    numItemsInput++;
+  }
+
+  while (iss >> int_inputVal)
+  {
+    // Throw an error if the number input by the user is out of bounds
+    if (int_inputVal < 1 || int_inputVal > db.getNumAttributes())
+    {
+      throw IncorrectInputError("Error! You did not input valid options for your decision attributes.");
+    }
+    decisionAttrs.push_back(int_inputVal - 1);
+
+    numIntegersInput++;
+  }
+
+  // Throw an error if there were no decision attributes set (ie no integers were input) or
+  // if the number of integers input is not equal to the number of items input (implying the user also input some extra characters)
+  if (decisionAttrs.getSize() == 0 || numIntegersInput != numItemsInput)
+  {
+    throw IncorrectInputError("Error! You did not input valid options for your decision attributes.");
+  }
+
+  // Set our decision attributes
   db.setDecisionAttrs(decisionAttrs);
 }
 
-/*
- // Print Database values
- cout << "Our data values are as follows: " << std::endl;
- cout << db;
- cout << "Number of instances: " << db.getNumInstances() << endl;
- cout << "Number of attributes: " << db.getNumAttributes() << endl;
- cout << "Row 4 data: " << db[4] << endl;
- cout << "Row 4 column 1 data: " << db[4][1] << endl << endl;
 
+void printDecisionAttributes (Dataset<string> &db)
+{
+  // initialize our vector to hold our decision attributes
+  Vector<unsigned int> attrs = db.getDecisionAttrs();
 
- // Print Attribute properties
- cout << "Attribute Properties: " << endl;
- for (unsigned int i = 0; i < db.getNumAttributes(); i++)
- {
- cout << db.getAttr(i).getName() << " "
- << db.getAttr(i).getPossibleVals() << " ";
+  // Print the names of the decision attributes
+  cout << "\nThe selected decision attributes are: ";
+  for (unsigned int i = 0; i < attrs.getSize(); i++)
+  {
+    cout << db.getAttr(attrs[i]).getName() << " ";
+  }
+  cout << endl << endl;
 
- if (db.getAttr(i).isNumeric())
- cout << "numeric ";
- else
- cout << "nominal ";
- vector<int>
- if (db.getAttr(i).isDecision())
- cout << "decision ";
- else
- cout << "nondecision";
- cout << endl;
- }*/
+}
+

@@ -10,7 +10,7 @@
 // *************************************************************************
 #include <string>
 #include "vector.h"
-#include "database.h"
+#include "dataset.h"
 #include "attribute.h"
 #include "partition.h"
 
@@ -18,30 +18,28 @@
 #define RICO_H
 bool isSubset (Vector<Vector<unsigned int> > v1,Vector<unsigned int> v2);
 //**************************************************************************
-// @class Thomas
-// @brief Computes the solution set for a set of n equations with n unknown
-//        variables, where n is some integer greater than zero. It uses the
-//        gauss-seidel iteration method.
+// @class RICO
+// @brief Finds and prints the set of minimal coverings associated with
+//        the particular Dataset given
 //**************************************************************************
 class RICO
 {
   public:
     //**********************************************************************
     // @fn     operator ()
-    // @brief  This is the thomas algorithm for solving a linear system
-    //         of equations that can be represented using a tridiagonal
-    //         matrix
-    // @param  M is a tridiagonal matrix, V is a Vector
-    // @pre    M should be an nxn tridiagonal matrix
-    //         V is a column vector with n elements
-    // @post   Returns a vector x representing the solution set
+    // @brief  This operator performs the RICO algorithm and prints the
+    //         minimal coverings
+    // @param  db - The Dataset which we use to find the minimal coverings
+    // @pre
+    //
+    // @post
     //**********************************************************************
-    void operator()(Database<std::string> &db);
+    void operator()(Dataset<std::string> &db);
 
 
 };
 
-// Member function definitions of thomas class
+// Member function definitions of the RICO class
 #include "rico.hpp"
 #endif
 

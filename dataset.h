@@ -1,85 +1,86 @@
 //**************************************************************************
-//  Name:        Camaro Walker and Katie Isbell
-//  File:        database.h
+//  Name:        Katie Isbell
+//  File:        Dataset.h
 //  Assignment:  Semester Project Programming Option
 //  Due Date:    12/6/2013
 //  Course:      CS301
-//  Purpose:     Create a class for a database
+//  Purpose:     Create a class for a Dataset
 // *************************************************************************
 #include "matrix.h"
 #include "attribute.h"
+#include "fileNotExistError.h"
 #include <string>
 #include <fstream>
 
-#ifndef DATABASE_H
-#define DATABASE_H
+#ifndef Dataset_H
+#define Dataset_H
 
 // *************************************************************************
-// @class Database
-// @brief Functions used for creating a Database for storing our data
+// @class Dataset
+// @brief Functions used for creating a Dataset for storing our data
 // *************************************************************************
 template <class T>
-class Database : public virtual Matrix<T>
+class Dataset : public virtual Matrix<T>
 {
   public:
     // *********************************************************************
-    // @fn     Database
+    // @fn     Dataset
     // @brief  Default Constructor
     // @pre    None
     // @post   The number of rows and number of columns are initialized to
     //         zero
     // *********************************************************************
-    Database() {}
+    Dataset() {}
 
     // *********************************************************************
-    // @fn     Database
+    // @fn     Dataset
     // @brief  Constructor which initializes the number of rows and cols
     // @pre    None
-    // @post   The number of rows and columns in the database have been set
+    // @post   The number of rows and columns in the Dataset have been set
     //         and all of the coefficient values are initialized to zero
     // *********************************************************************
-    Database(const unsigned int numRows, const unsigned int numCols);
+    Dataset(const unsigned int numRows, const unsigned int numCols);
 
     // *********************************************************************
-    // @fn     Database
+    // @fn     Dataset
     // @brief  Copy Constructor
     // @pre    None
-    // @post   The new Database is an exact copy of the original Database. It
-    //         has the same size and coefficients as the original Database.
+    // @post   The new Dataset is an exact copy of the original Dataset. It
+    //         has the same size and coefficients as the original Dataset.
     // *********************************************************************
-    Database(const Database<T> &v);
+    Dataset(const Dataset<T> &v);
 
     // *********************************************************************
-    // @fn     ~Database
-    // @brief  Destructor that clears the Database
+    // @fn     ~Dataset
+    // @brief  Destructor that clears the Dataset
     // @pre    None
-    // @post   The size of the Database is set to zero and the data has been
+    // @post   The size of the Dataset is set to zero and the data has been
     //         cleared
     // *********************************************************************
-    ~Database();
+    ~Dataset();
     
     // *********************************************************************
     // @fn     operator =
-    // @brief  Assigns one Database to another Database
+    // @brief  Assigns one Dataset to another Dataset
     // @pre    None
-    // @post   The resulting Database on the lhs will be a copy of the Database
+    // @post   The resulting Dataset on the lhs will be a copy of the Dataset
     //         on the rhs
     // *********************************************************************
-    Database<T>& operator= (const Database<T> &rhs);
+    Dataset<T>& operator= (const Dataset<T> &rhs);
     
     // *********************************************************************
-    // @fn     initDatabase
-    // @brief  Initialize a database from file input
+    // @fn     initDataset
+    // @brief  Initialize a Dataset from file input
     // @pre    The file should be in arff file format
-    // @post   The database rows, cols, and attribute properties are al
+    // @post   The Dataset rows, cols, and attribute properties are al
     //         initialized
     // *********************************************************************
-    void initDatabase(const std::string filename);
+    void initDataset(const std::string filename);
 
 
     // *********************************************************************
     // @fn     clear
-    // @brief  Used to clear a Database of type T
+    // @brief  Used to clear a Dataset of type T
     // @pre    None
     // @post   The Matrix is cleared and attribute arrays are emptied
     // *********************************************************************
@@ -87,11 +88,11 @@ class Database : public virtual Matrix<T>
     
     // *********************************************************************
     // @fn     setSize
-    // @brief  Used to set the number of database instances and database
+    // @brief  Used to set the number of Dataset instances and Dataset
     //         attributes (rows and columns)
     // @pre    None
-    // @post   The Database is cleared and attribute arrays are emptied. Each
-    //         time the database is resized, we will have to reinitialize all
+    // @post   The Dataset is cleared and attribute arrays are emptied. Each
+    //         time the Dataset is resized, we will have to reinitialize all
     //         of our data instances and attribute values.
     // *********************************************************************
     void setSize(const unsigned int numRows, const unsigned int numCols);
@@ -108,7 +109,7 @@ class Database : public virtual Matrix<T>
     // *********************************************************************
     // @fn     getNumAttributes
     // @brief  Used to get the number of attributes (or columns) in our
-    //         database
+    //         Dataset
     // @pre    None
     // @post   The number of columns in our matrix is returned
     // *********************************************************************
@@ -116,7 +117,7 @@ class Database : public virtual Matrix<T>
     
     // *********************************************************************
     // @fn     getNumInstances()
-    // @brief  Used to get the number of instances (or rows) in the database
+    // @brief  Used to get the number of instances (or rows) in the Dataset
     // @pre    None
     // @post   The number of rows in our matrix is returned
     // *********************************************************************
@@ -140,7 +141,7 @@ class Database : public virtual Matrix<T>
 
     // *********************************************************************
     // @fn     addAttribute
-    // @brief  Adds a new attribute to the database
+    // @brief  Adds a new attribute to the Dataset
     // @pre    None
     // @post   The new attribute is added
     // *********************************************************************
@@ -171,6 +172,14 @@ class Database : public virtual Matrix<T>
     // *********************************************************************
     Vector<unsigned int> getNonDecisionAttrs();
 
+    // *********************************************************************
+    // @fn     getline2
+    // @brief  A modified version of the standard getline function that
+    //         accounts for the \r delimiter for windows files
+    // @pre    None
+    // @post   returns the same result as getline with files using only the
+    //         newline as with files using both newline and carriage return
+    // *********************************************************************
     std::basic_istream<char>& getline2(std::basic_istream<char>&, std::string&);
 
 
@@ -178,5 +187,5 @@ class Database : public virtual Matrix<T>
     Vector<Attribute> m_attributes;
 };
 
-#include "database.hpp"
+#include "dataset.hpp"
 #endif

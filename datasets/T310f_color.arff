@@ -1,0 +1,19 @@
+@relation T310f_color
+
+@attribute a numeric
+@attribute b {L,R,S}
+@attribute c numeric
+@attribute d {L,H}
+@attribute f numeric
+@attribute color1 {B,W}
+@attribute color2 {W,B}
+
+@data
+0,L,0,L,0,B,W
+0,R,1,L,1,B,W
+0,L,0,L,0,W,B
+0,R,1,L,1,W,B
+1,R,0,L,2,B,W
+1,R,0,L,2,W,B
+2,S,2,H,3,B,W
+2,S,2,H,3,W,B
