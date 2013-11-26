@@ -71,29 +71,40 @@ void Dataset<T>::initDataset (const std::string fileName)
     file >> word;
   } while (word != "@attribute");
 
-  // Store our attributes
-  for (unsigned int i = 0; word != "@data"; i++) // Read until we come across the word "@data"
+  // Store our attributes. Stop when we come across the word "@data" in our file
+  for (unsigned int i = 0; word != "@data"; i++)
   {
     // Increment the total number of attributes we have in our dataset
     this->addAttribute();
 
-    // Get attribute name
+    // Read and store the Attribute name
     file >> word;
-    this->getAttr(i).setName(word);
+    this->getAttr(i).setName(word); // set the name of this attribute
 
-    file >> word;
-    std::cout << word << std::endl;
-    //this->getAttr(i).setPossibleVals(word); // Set the attribute possible values
+    // Get attribute possible values (a list of values)
+    getline2(file,word);
 
-    file >> word; // Ignore the word "@attribute"
+    // Set the possible values for our attribute.
+    this->getAttr(i).setPossibleVals( formatString(word) ); // Skip end-of-line comments
+
+    // Read until we come across a new attribute. This will skip commented lines
+    do
+    {
+      file >> word;
+    } while(word != "@attribute" && word != "@data");
     numAttributes++;
   }
   getline2(file, word);
 
-  // Push Dataset rows onto a vector
+  // Everything after @data
+  // Store our dataset values
   while (getline2(file, word))
   {
-    listRows.push_back(word);
+    if (word[0] != '%' && word.length() != 0) // Skip over commented lines or blank lines
+    {
+      listRows.push_back( formatString(word) ); // skip end of line comments
+    }
+
   }
   numInstances = listRows.getSize();
 
@@ -127,6 +138,27 @@ std::basic_istream<char>& Dataset<T>::getline2 (std::basic_istream<char>& c, std
   }
 
   return c;
+}
+
+// Format a string by removing any whitespace characters and text following % for comments
+template<class T>
+std::string Dataset<T>::formatString(std::string input)
+{
+  std::string solution;
+  bool repeat = true;
+  for (unsigned int i = 0; i < input.length() && repeat; i++)
+  {
+    if (input[i] != ' ')
+    {
+      if (input[i] == '%')
+      {
+        repeat = false;
+      }
+      else
+        solution += input[i];
+    }
+  }
+  return solution;
 }
 
 // Clear a Dataset

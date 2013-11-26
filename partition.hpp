@@ -64,16 +64,15 @@ bool Partition::operator<= (const Partition &p1) const
   }
   return subset;
 }
-
 // Print our rule sets
-void Partition::print (Dataset<std::string>& db)
+void Partition::printAssociationRules (Dataset<std::string>& db)
 {
   std::string key;
   Vector<unsigned int> groupVals;
   Vector<unsigned int> decisionAttrs = db.getDecisionAttrs();
 
   std::cout << "Rules for covering [";
-  // Print out the names of the attributes for this partition
+  // Print out a list of the names of the attributes for this partition
   for (unsigned int i = 0; i < m_attrs.getSize(); ++i)
   {
     std::cout << db.getAttr(m_attrs[i]).getName();
@@ -82,12 +81,13 @@ void Partition::print (Dataset<std::string>& db)
   }
   std::cout << "]:" << std::endl;
 
+  // Print the association rules for this attribute
   for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
   {
     key = it->first;
     groupVals = it->second;
 
-    std::cout << "[[" << key;
+    std::cout << "[[" << key << "abc";
 
     // Print the decision attributes for this instance
     for (unsigned int i = 0; i < decisionAttrs.getSize(); i++)
@@ -102,18 +102,18 @@ void Partition::print (Dataset<std::string>& db)
 
 }
 
-// Print the distribution for all possible combinations of the decision attributes
-void Partition::printDistribution (Dataset<std::string>& db)
+// Print the distributions for all possible combinations of the decision attributes
+void Partition::printAllDistributionCombos (Dataset<std::string>& db)
 {
   Vector<unsigned int> v, right;
-  Vector<Vector<unsigned int> > left, newLeft, coverings;
+  Vector<Vector<unsigned int> > left, newLeft;
 
   for (unsigned int i = 0; i < m_attrs.getSize(); i++)
   {
     v.push_back(m_attrs[i]);
     left.push_back(v);
     right.push_back(m_attrs[i]);
-    printSingleDistribution(db, v);
+    printDistribution(db, v);
     std::cout << std::endl;
     v.clear();
   }
@@ -136,7 +136,7 @@ void Partition::printDistribution (Dataset<std::string>& db)
           v.push_back(left[i][k]);
         }
         v.push_back(right[j]);
-        printSingleDistribution(db, v);
+        printDistribution(db, v);
         std::cout << std::endl;
         newLeft.push_back(v);
 
@@ -148,12 +148,14 @@ void Partition::printDistribution (Dataset<std::string>& db)
   }
 }
 
-void Partition::printSingleDistribution (Dataset<std::string>& db, Vector<unsigned int> attrs)
+// Print the distribution of values for a given attribute or combination of attributes
+void Partition::printDistribution (Dataset<std::string>& db, Vector<unsigned int> attrs)
 {
   std::string key;
   Vector<unsigned int> groupVals;
 
-  cout << "Distribution of values for attribute ";
+  std::cout << "Distribution of values for attribute ";
+  // Print the name of the attribute(s)
   for (unsigned int i = 0; i < attrs.getSize(); ++i)
   {
     std::cout << db.getAttr(attrs[i]).getName();
@@ -162,18 +164,14 @@ void Partition::printSingleDistribution (Dataset<std::string>& db, Vector<unsign
   }
   std::cout << ":" << std::endl;
 
+  // Print the value and occurrences of each value for the selected attribute(s)
   for (map<std::string, Vector<unsigned int> >::const_iterator it = m_map.begin(); it != m_map.end(); ++it)
   {
     key = it->first;
     groupVals = it->second;
-    std::cout << "  Value: " << key << "\tOccurrences: " << groupVals.getSize() << " ";
-
-    //TODO: Remove later
-    std::cout << "Rows: ";
-    for (unsigned int i = 0; i < groupVals.getSize(); i++)
-      cout << groupVals[i] << " ";
-    std::cout << std::endl;
+    std::cout << "  Value: ";
+    std::cout<<  key;
+    std::cout<< "\tOccurrences: " << groupVals.getSize() << std::endl;
   }
-
 }
 

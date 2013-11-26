@@ -62,7 +62,7 @@ int main ()
 
   // Get the file name
   std::cout << "What is the name of the read file?" << std::endl;
-  fileName = "datasets/contactLenses.arff"; // getline(cin, fileName);
+  fileName = "datasets/vampireData.arff"; // getline(cin, fileName);
 
   // Initialize Dataset values from the read file
   db.initDataset(fileName);

@@ -13,9 +13,9 @@
 void RICO::operator()(Dataset<std::string> &db)
 {
   Vector<unsigned int> nonDecisionAttrs = db.getNonDecisionAttrs();
-  Partition p3(db, db.getDecisionAttrs());
 
-  p3.printDistribution(db);
+  Partition p_decisionAttrs(db, db.getDecisionAttrs()); // The partition of our decision attributes
+  p_decisionAttrs.printAllDistributionCombos(db); // Print the distribution for all possible combinations of decision attributes
   std::cout << std::endl;
 
   Vector<unsigned int> v, right;
@@ -26,10 +26,10 @@ void RICO::operator()(Dataset<std::string> &db)
     v.push_back(nonDecisionAttrs[i]);
     Partition p(db,v);
 
-    if (p <= p3) // Covering
+    if (p <= p_decisionAttrs) // Covering
     {
       coverings.push_back(v);
-      p.print(db);
+      p.printAssociationRules(db);
       cout << endl;
     }
     else
@@ -62,10 +62,10 @@ void RICO::operator()(Dataset<std::string> &db)
         if (!isSubset(coverings,v))
         {
           Partition p(db,v);
-          if (p <= p3)
+          if (p <= p_decisionAttrs)
           {
             coverings.push_back(v);
-            p.print(db);
+            p.printAssociationRules(db);
             cout << endl;
           }
           else

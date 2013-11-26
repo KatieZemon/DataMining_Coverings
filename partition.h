@@ -44,7 +44,7 @@ class Partition
 
     // *********************************************************************
     // @fn     Partition
-    // @brief  Copy Constructor.
+    // @brief  Copy Constructor
     // @pre    None
     // @post   The new Partition is an exact copy of the original Partition
     // *********************************************************************
@@ -52,28 +52,33 @@ class Partition
 
     // *********************************************************************
     // @fn     print
-    // @brief  Prints the rules for the coverings found
+    // @brief  Prints the association rules for the coverings found
     // @pre    None
     // @post   The rule sets for the covering is printed to the screen
     // *********************************************************************
-    void print (Dataset<std::string>& db);
+    void printAssociationRules (Dataset<std::string>& db);
+
+    // *********************************************************************
+    // @fn     printAllDistributionCombos
+    // @brief  Prints the distributions of all possible combinations of
+    //         decision attributes
+    // @pre    None
+    // @post   The distributions for all combinations of decision attributes
+    //         are printed to the screen
+    // *********************************************************************
+    void printAllDistributionCombos (Dataset<std::string>& db);
 
     // *********************************************************************
     // @fn     printDistribution
-    // @brief  Prints the distribution for all possible combinations of
-    //         decision attributes
+    // @brief  This function prints the distribution of a single given
+    //         partition. It is used in printAllDistributionCombos()
     // @pre    None
+    // @param db- The database we are studying
+    // @param attrs- The attribute or set of attributes for which we are using
+    //        to print the distribution
     // @post   The rule sets for the covering is printed to the screen
     // *********************************************************************
-    void printDistribution (Dataset<std::string>& db);
-
-    // *********************************************************************
-    // @fn     printSingleDistribution
-    // @brief  This is a function called by printDistribution.
-    // @pre    None
-    // @post   The rule sets for the covering is printed to the screen
-    // *********************************************************************
-    void printSingleDistribution (Dataset<std::string>& db, Vector<unsigned int> attrs);
+    void printDistribution (Dataset<std::string>& db, Vector<unsigned int> attrs);
 
     // *********************************************************************
     // @fn     operator <=

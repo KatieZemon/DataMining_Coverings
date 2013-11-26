@@ -1,10 +1,11 @@
 ##############################################################################
-#  Programmer:  Camaro Walker and Katie Isbell
+#  Programmer:  Katie Isbell
 #  File:        makefile.txt
-#  Assignment:  Semester Project and Programming Option
+#  Assignment:  Semester Project Programming Option
 #  Due Date:    12/6/2013
 #  Course:      CS301
-#  Purpose:     This is the makefile used for the Semester Programming Project
+#  Purpose:     This is the makefile used for the CS301 Semester Programming 
+#               Project
 ##############################################################################
 
 # Creates the "driver" exe
@@ -15,8 +16,10 @@ all: driver
 driver:      driver.o
 								g++ driver.o -o driver
 
-driver.o:    driver.cpp matrix.h matrix.hpp vector.h vector.hpp divisionByZeroError.h \
-             subscriptRangeError.h sizeMismatchError.h database.h database.hpp
+driver.o:    attribute.h attribute.hpp dataset.h dataset.hpp divisionByZeroError.h \
+            driver.cpp fileNotExistError.h incorrectInputError.h matrix.h matrix.hpp \
+            partition.h partition.hpp rico.h rico.hpp sizeMismatchError.h \
+            subscriptRangeError.h vector.h vector.hpp
 
 								g++ -c driver.cpp
 

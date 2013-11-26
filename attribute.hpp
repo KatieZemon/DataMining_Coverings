@@ -74,6 +74,7 @@ void Attribute::setPossibleVals(const std::string possibleVals)
 {
   if (possibleVals == "numeric")
     setNumeric(true);
+
   m_possibleVals = possibleVals;
 }
 

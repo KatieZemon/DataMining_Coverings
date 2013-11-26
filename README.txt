@@ -1,4 +1,4 @@
-Instructions to run and execute:
-1. cd to the project directory
-2. type "make" to compile
-3. type "./driver" to run
+Instructions to compile and execute:
+1. Open a terminal and cd to the project directory
+2. Type "make" to compile
+3. Type "./driver" to run

@@ -1,0 +1,30 @@
+% vampire dataset
+% This set of data was created by Katie Isbell as a test for
+% runnig the RICO algorithm on the CS301 final programming project
+%
+% It contains data collected from several vampires running around 
+% Rolla near the Missouri S&T campus. The data describes the the
+% vampires' mood and willingness to attack a human that night.
+
+@relation vampire-data
+
+@attribute moody numeric % is the vampire in a bad mood
+@attribute hungry numeric % is the vampire hungry
+@attribute morals numeric % does the vampire have good morals today
+@attribute sleepy numeric % is the vampire sleepy
+@attribute eat_human numeric % will the vampire eat a human today
+
+%List of data for our vampire dataset
+@data
+1,1,0,0,1
+1,1,0,0,1
+1,1,0,1,1
+1,1,0,1,1
+0,1,1,0,1
+0,0,0,1,0
+1,1,0,1,1
+0,0,0,1,0
+1,1,0,1,1
+
+
+

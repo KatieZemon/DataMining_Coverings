@@ -182,6 +182,9 @@ class Dataset : public virtual Matrix<T>
     // *********************************************************************
     std::basic_istream<char>& getline2(std::basic_istream<char>&, std::string&);
 
+    std::string formatString(const std::string input);
+
+
 
   protected:
     Vector<Attribute> m_attributes;
